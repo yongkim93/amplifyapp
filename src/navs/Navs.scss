@@ -1,0 +1,9 @@
+.justify-content-center{
+    justify-content: flex-start !important;
+    align-items: center;
+
+    .nav-item{
+        margin: 0px 1rem;
+        font-size: large;
+    }
+}
