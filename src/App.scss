@@ -20,7 +20,7 @@
   padding:0px;
 }
 
-.nav{
+.nav-section{
   width: 100%;
   min-height:5rem;
   background-color:#f7f7ee;
@@ -36,6 +36,12 @@
   .banner-title{
     color: white;
   }
+}
+
+.main{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
 .App-header {
