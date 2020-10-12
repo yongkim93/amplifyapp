@@ -5,5 +5,14 @@
     .nav-item{
         margin: 0px 1rem;
         font-size: large;
+        font-weight: 500;
+        color: #17706e;
+        margin-top: 1rem;
+        min-height: 4rem;
+        .active{
+            background-color: white;
+            padding: .5rem 1rem 1.8rem;
+            border-radius: .5rem .5rem 0px 0px;
+        }
     }
 }

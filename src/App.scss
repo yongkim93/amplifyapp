@@ -30,11 +30,17 @@
   width:100%;
   min-height:20rem;
   background-color:#b6eb7a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .banner-title{
+    color: white;
+  }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  //background-color: #282c34;
+  background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;

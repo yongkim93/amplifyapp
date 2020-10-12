@@ -8,13 +8,12 @@ function App() {
   return (
     <div className="App fulldemention">
       <div className="Banner">
-
+        <h1 className="banner-title">Welcome to Yongshine.info</h1>
       </div>
       <div className="nav">
-        <Navs/>
+        <Navs />
       </div>
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <h1>Hello from V2</h1>
         <a
           className="App-link"
@@ -24,7 +23,7 @@ function App() {
         >
           Learn React
         </a>
-        <Main/>
+        <Main />
       </header>
     </div>
   );
