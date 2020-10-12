@@ -1,6 +1,5 @@
 import React from 'react';
 import logo from './logo.svg';
-import Main from './main/Main';
 import Navs from './navs/Navs';
 import './App.scss';
 
@@ -14,7 +13,6 @@ function App() {
         <Navs />
       </div>
       <div className="main">
-        <Main />
       </div>
     </div>
   );
