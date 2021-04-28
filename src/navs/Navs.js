@@ -1,6 +1,8 @@
 import React from 'react';
 import './Navs.scss';
 import Main from '../main/Main';
+import Sticker from '../sticker/Sticker';
+import Calendar from '../calendar/Calendar';
 
 function Navs() {
     return (
@@ -26,6 +28,8 @@ function Navs() {
             </div>
             <div className="card-body">
                 <Main />
+                <Sticker />
+                <Calendar />
             </div>
         </div>
     );
