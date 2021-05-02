@@ -6,15 +6,15 @@ import './App.scss';
 class App extends React.Component {
 
   componentDidMount() {
-    const semanticJs = document.createElement("script");
-    const semanticCss = document.createElement("link");
-    semanticCss.rel = "stylesheet";
-    semanticCss.href = "https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css";
-    semanticJs.src = "https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js";
-    semanticJs.async = true;
+    // const semanticJs = document.createElement("script");
+    // const semanticCss = document.createElement("link");
+    // semanticCss.rel = "stylesheet";
+    // semanticCss.href = "https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css";
+    // semanticJs.src = "https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js";
+    // semanticJs.async = true;
 
-    document.body.appendChild(semanticJs);
-    document.body.appendChild(semanticCss);
+    // document.body.appendChild(semanticJs);
+    // document.body.appendChild(semanticCss);
   }
 
   render() {
