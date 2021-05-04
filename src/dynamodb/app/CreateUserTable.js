@@ -1,5 +1,10 @@
 var AWS = require("aws-sdk");
 
+AWS.config.region = 'us-east-2'; // Region
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'us-east-2:c418fb81-39d1-4bae-bbd6-21cb573d5f43',
+});
+
 AWS.config.update({
     region: 'us-east-2',
     endpoint: "https://dynamodb.us-east-2.amazonaws.com"

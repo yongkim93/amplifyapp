@@ -2,6 +2,7 @@ import React from 'react';
 import './Grid.scss';
 import Cell from './cell/Cell';
 import putEvent from '../../dynamodb/app/PutEvent'
+import Form from '../form/Form'
 require('datejs');
 
 class Grid extends React.Component {
@@ -66,6 +67,10 @@ class Grid extends React.Component {
         return table;
     }
 
+    submitHandler(state){
+        console.log(state);
+    }
+
     componentDidMount() {
     }
 
@@ -84,13 +89,14 @@ class Grid extends React.Component {
                     <div className="modal-background"></div>
                     <div class="modal-card">
                         <header class="modal-card-head">
-                            <p class="modal-card-title">Modal title</p>
+                            <p class="modal-card-title">Appointment</p>
                             <button class="delete" aria-label="close" onClick={this.deActiveModal}></button>
                         </header>
-                        <section class="modal-card-body">
+                        <section class="modal-card-body is-clipped">
+                            <Form onSubmit={this.submitHandler}/>
                         </section>
                         <footer class="modal-card-foot">
-                            <button class="button is-success" onClick={putEvent}>Save changes</button>
+                            <button class="button is-success" onClick={putEvent}>Submit</button>
                             <button class="button" onClick={this.deActiveModal}>Cancel</button>
                         </footer>
                     </div>

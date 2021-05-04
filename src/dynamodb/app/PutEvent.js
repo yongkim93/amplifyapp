@@ -1,11 +1,27 @@
 var AWS = require("aws-sdk");
 
-AWS.config.update({
-    accessKeyId: "AKIAW3VN7TLUB5EUY3MZ",
-    secretAccessKey: "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",
-    region: "us-east-2",
-    endpoint: "https://dynamodb.us-east-2.amazonaws.com"
+// Initialize the Amazon Cognito credentials provider
+AWS.config.region = 'us-east-2'; // Region
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'us-east-2:c418fb81-39d1-4bae-bbd6-21cb573d5f43',
 });
+
+// AWS.config.update({
+//     region: "us-east-2",
+//     endpoint: "https://dynamodb.us-east-2.amazonaws.com"
+// });
+
+// AWS.config.credentials.get(function(){
+
+//     // Credentials will be available when this function is called.
+//     var accessKeyId = AWS.config.credentials.accessKeyId;
+//     var secretAccessKey = AWS.config.credentials.secretAccessKey;
+//     var sessionToken = AWS.config.credentials.sessionToken;
+
+//     console.log(accessKeyId);
+//     console.log(secretAccessKey);
+//     console.log(sessionToken);
+// });
 
 var docClient = new AWS.DynamoDB.DocumentClient();
 
