@@ -69,7 +69,7 @@ function Navs() {
             </nav>
             <div className="card-body">
                 <Main />
-                <Sticker />
+                {/* <Sticker /> */}
                 <Calendar />
             </div>
         </div>

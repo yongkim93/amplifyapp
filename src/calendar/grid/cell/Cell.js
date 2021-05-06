@@ -14,7 +14,6 @@ class Cell extends React.Component {
         this.props.modalHandler(this.props.dateTime);
     }
     componentDidMount() {
-        console.log("hiii");
     }
     render() {
         return (
