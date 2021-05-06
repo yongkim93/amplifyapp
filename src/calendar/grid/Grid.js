@@ -1,8 +1,9 @@
 import React from 'react';
 import './Grid.scss';
 import Cell from './cell/Cell';
-import putEvent from '../../dynamodb/app/PutEvent'
-import Form from '../form/Form'
+import PutEvent from '../../dynamodb/app/PutEvent';
+import ReadEvents from '../../dynamodb/app/ReadEvents';
+import Form from '../form/Form';
 require('datejs');
 
 class Grid extends React.Component {
@@ -11,11 +12,15 @@ class Grid extends React.Component {
         super(props);
         this.state = {
             isActive: false,
-            dateTime: null,
-            name: '',
-            email: '',
-            purpose: 'Hang Out',
-            message: ''
+            dateTime: '',
+            formInfo: {
+                name: '',
+                email: '',
+                purpose: 'Hang Out',
+                message: ''
+            },
+            appointments: new Map(),
+            fetchedData: false
         };
         this.activeModal = this.activeModal.bind(this);
         this.deActiveModal = this.deActiveModal.bind(this);
@@ -24,37 +29,40 @@ class Grid extends React.Component {
         this.emailHandler = this.emailHandler.bind(this);
         this.purposeHandler = this.purposeHandler.bind(this);
         this.messageHandler = this.messageHandler.bind(this);
-        this.reset = this.reset.bind(this);
+        this.resetFormInfo = this.resetFormInfo.bind(this);
+        this.fetchData = this.fetchData.bind(this);
         this.formRef = React.createRef();
     }
 
-    reset() {
+    resetFormInfo() {
         this.setState({
             isActive: false,
             dateTime: null,
-            name: '',
-            email: '',
-            purpose: 'Hang Out',
-            message: ''
+            formInfo: {
+                name: '',
+                email: '',
+                purpose: 'Hang Out',
+                message: ''
+            }
         });
     }
 
     nameHandler(event) {
-        event.preventDefault()
-        this.setState({ name: event.target.value });
+        event.preventDefault();
+        this.setState({ formInfo: { ...this.state.formInfo, name: event.target.value } });
     }
     emailHandler(event) {
         event.preventDefault()
-        this.setState({ email: event.target.value });
+        this.setState({ formInfo: { ...this.state.formInfo, email: event.target.value } });
     }
     purposeHandler(event) {
         event.preventDefault()
-        this.setState({ purpose: event.target.value });
+        this.setState({ formInfo: { ...this.state.formInfo, purpose: event.target.value } });
     }
 
     messageHandler(event) {
         event.preventDefault()
-        this.setState({ message: event.target.value });
+        this.setState({ formInfo: { ...this.state.formInfo, message: event.target.value } });
     }
 
     activeModal(dateTime) {
@@ -62,7 +70,7 @@ class Grid extends React.Component {
     }
 
     deActiveModal() {
-        this.reset();
+        this.resetFormInfo();
         this.formRef.current.reset();
     }
 
@@ -86,7 +94,7 @@ class Grid extends React.Component {
         let table = [];
         this.createTableHead();
         // Outer loop to create parent
-        for (let i = 0; i < 49; i++) {
+        for (let i = 0; i < 48; i++) {
             let children = [];
             let currentDateTime = new Date();// date time now
             currentDateTime.last().monday();
@@ -94,11 +102,11 @@ class Grid extends React.Component {
             currentDateTime.addMinutes(30 * i);
 
             //add monday
-            children.push(<td><Cell dateTime={currentDateTime.toString()} modalHandler={this.activeModal} />{currentDateTime.toString()}</td>);
+            children.push(<td><Cell taken={this.state.dateTime === currentDateTime.toString()} time={currentDateTime.toString("HH:mm")} info={this.state.appointments.get(this.getEpoch(currentDateTime))} dateTime={currentDateTime.toString()} modalHandler={this.activeModal} /></td>);
             //add the rest
             for (let j = 0; j < 6; j++) {
                 currentDateTime.setDate(currentDateTime.getDate() + 1);
-                children.push(<td><Cell dateTime={currentDateTime.toString()} modalHandler={this.activeModal} />{currentDateTime.toString()}</td>);
+                children.push(<td><Cell taken={this.state.dateTime === currentDateTime.toString()} time={currentDateTime.toString("HH:mm")} info={this.state.appointments.get(this.getEpoch(currentDateTime))} dateTime={currentDateTime.toString()} modalHandler={this.activeModal} /></td>);
             }
 
             //Create the parent and add the children
@@ -107,27 +115,41 @@ class Grid extends React.Component {
         return table;
     }
 
-    submitHandler(state) {
+    getEpoch(dateTime) {
+        return Math.floor(dateTime.getTime() / 1000);
+    }
+
+    submitHandler() {
         //putEvent(...state)
         this.formRef.current.validateOnSubmit(true);
         if (this.formRef.current.state.name.isValid && this.formRef.current.state.email.isValid && this.formRef.current.state.message.isValid) {
-            const { isActive, dateTime, ...rest } = this.state;
-            
+            let { dateTime, formInfo } = this.state;
+            dateTime = new Date(dateTime);
+            //cover up the page with loading
+            this.setState({ fetchedData: false });
             //send data to dynamodb
-            putEvent(null, null, dateTime, "appointmentId", rest);
-
-            this.reset();
-            this.formRef.current.reset();
+            PutEvent(null, null, dateTime.toISOString(), this.getEpoch(dateTime), formInfo).then(() => this.fetchData().then(() => {
+                this.resetFormInfo();
+                this.formRef.current.reset();
+            }));
         }
     }
 
+    fetchData() {
+        return ReadEvents('yongshine-guest', 'guest', 1620122400, this.state.appointments).then(() => this.setState({ fetchedData: true }));
+    }
+
     componentDidMount() {
+        this.fetchData();
+
+        // this.setState({ appointments: await ReadEvents('yongshine-guest', 'guest', 1620122400) });
+        // console.log(this.state.appointments.get(1620122400));
     }
 
     render() {
         return (
             <div>
-                <table className="table is-bordered is-striped">
+                <table className="table is-bordered is-striped timeGrid">
                     <thead>
                         {this.createTableHead()}
                     </thead>
@@ -143,7 +165,7 @@ class Grid extends React.Component {
                             <button class="delete" aria-label="close" onClick={this.deActiveModal}></button>
                         </header>
                         <section class="modal-card-body is-clipped">
-                            <Form ref={this.formRef} info={this.state} nameHandler={this.nameHandler} emailHandler={this.emailHandler} purposeHandler={this.purposeHandler} messageHandler={this.messageHandler} onSubmit={this.submitHandler} />
+                            <Form ref={this.formRef} info={this.state.formInfo} nameHandler={this.nameHandler} emailHandler={this.emailHandler} purposeHandler={this.purposeHandler} messageHandler={this.messageHandler} onSubmit={this.submitHandler} />
                         </section>
                         <footer class="modal-card-foot">
                             <button class="button is-success" onClick={this.submitHandler}>Submit</button>

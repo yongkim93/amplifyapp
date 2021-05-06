@@ -25,7 +25,7 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 
 var docClient = new AWS.DynamoDB.DocumentClient();
 
-export default function putEvent(tableName, userId, date, appointmentId, info) {
+export default function putEvent(tableName, userId, dateTime, appointmentId, info) {
     tableName = tableName || 'yongshine-guest';
     userId = userId || 'guest';
     // date = 'date';
@@ -36,15 +36,16 @@ export default function putEvent(tableName, userId, date, appointmentId, info) {
         TableName: tableName,
         Item: {
             "userId": userId,
-            "appointmentid": appointmentId,
-            "appointmentAt": date,
+            "appointmentId": appointmentId, //epoch of appointment dateTime
+            "dateTime": dateTime,
             "info" : info
         }
     };
-    console.log(params);
+    // console.log(params);
 
-    // console.log("Adding a new item...");
+    console.log("Adding a new item...");
 
+    return docClient.put(params).promise()
     // docClient.put(params, function (err, data) {
     //     if (err) {
     //         console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));

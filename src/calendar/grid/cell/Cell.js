@@ -11,13 +11,15 @@ class Cell extends React.Component {
     }
 
     clickHandler() {
-        this.props.modalHandler(this.props.dateTime);
+        if (!this.props.info)
+            this.props.modalHandler(this.props.dateTime);
     }
     componentDidMount() {
     }
     render() {
         return (
-            <div className="cell" onClick={this.clickHandler}>
+            <div className={`cell center ${(this.props.taken || this.props.info) && 'taken'}`} onClick={this.clickHandler}>
+                <p>{this.props.time}</p>
             </div>
         )
     };

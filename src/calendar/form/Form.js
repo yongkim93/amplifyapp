@@ -7,6 +7,7 @@ class Form extends React.Component {
         super(props);
         this.state = {
             update: false,
+            disableAll: false,
             name: {
                 initial: true,
                 submit: false,
@@ -34,6 +35,7 @@ class Form extends React.Component {
         this.setState(
             {
                 update: false,
+                disableAll: false,
                 name: {
                     initial: true,
                     submit: false,
@@ -70,9 +72,9 @@ class Form extends React.Component {
         this.props.messageHandler(e);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate() {
         if (this.state.update) {
-            this.validateOnSubmit(false)
+            this.validateOnSubmit(false);
         }
     }
 
@@ -88,10 +90,11 @@ class Form extends React.Component {
             email: { initial: this.props.info.email.trim() ? false : true, isValid: this.validateEmail(this.props.info.email), submit: shouldSubmit },
             message: { initial: this.props.info.message.trim() ? false : true, isValid: this.props.info.message.trim() ? true : false, submit: shouldSubmit }
         });
+        if (this.state.name.isValid && this.state.email.isValid && this.state.message.isValid && shouldSubmit)
+            this.setState({ disableAll: true })
     }
 
     componentDidMount() {
-
     }
 
     render() {
@@ -100,29 +103,27 @@ class Form extends React.Component {
                 <div className="field">
                     <label className="label">Name</label>
                     <div className="control">
-                        <input className={`input ${this.state.name.submit && this.state.name.initial && !this.state.name.isValid && "is-danger"} ${this.state.name.submit && !this.state.name.initial && this.state.name.isValid && "is-success"}`} type="text" placeholder="Your Name" value={this.props.info.name} onChange={this.nameHandler} />
+                        <input disabled={this.state.disableAll} className={`input ${this.state.name.submit && this.state.name.initial && !this.state.name.isValid && "is-danger"} ${this.state.name.submit && !this.state.name.initial && this.state.name.isValid && "is-success"}`} type="text" placeholder="Your Name" value={this.props.info.name} onChange={this.nameHandler} />
                     </div>
                 </div>
 
-                <fieldset disabled>
-                    <div className="field">
-                        <label className="label">Username</label>
-                        <div className="control has-icons-right">
-                            <input className="input is-disable" type="text" placeholder="Text input" value="guest" />
-                            <span className="icon is-small is-left">
-                                <i className="fas fa-user"></i>
-                            </span>
-                            <span className="icon is-small is-right">
-                                <i className="fas fa-check"></i>
-                            </span>
-                        </div>
+                <div className="field">
+                    <label className="label">Username</label>
+                    <div className="control has-icons-right">
+                        <input disabled className="input is-disable" type="text" placeholder="Text input" value="guest" />
+                        <span className="icon is-small is-left">
+                            <i className="fas fa-user"></i>
+                        </span>
+                        <span className="icon is-small is-right">
+                            <i className="fas fa-check"></i>
+                        </span>
                     </div>
-                </fieldset>
+                </div>
 
                 <div className="field">
                     <label className="label">Email</label>
                     <div className="control has-icons-right">
-                        <input className={`input ${this.state.email.submit && (!this.state.email.initial || !this.props.info.email) && !this.state.email.isValid && "is-danger"} ${this.state.email.submit && !this.state.email.initial && this.state.email.isValid && "is-success"}`} type="email" placeholder="my-email@example.com" value={this.props.info.email} onChange={this.emailHandler} />
+                        <input disabled={this.state.disableAll} className={`input ${this.state.email.submit && (!this.state.email.initial || !this.props.info.email) && !this.state.email.isValid && "is-danger"} ${this.state.email.submit && !this.state.email.initial && this.state.email.isValid && "is-success"}`} type="email" placeholder="my-email@example.com" value={this.props.info.email} onChange={this.emailHandler} />
                         <span className="icon is-small is-left">
                             <i className="fas fa-envelope"></i>
                         </span>
@@ -137,7 +138,7 @@ class Form extends React.Component {
                     <label className="label">Subject</label>
                     <div className="control">
                         <div className="select">
-                            <select value={this.props.info.purpose} onChange={this.props.purposeHandler}>
+                            <select disabled={this.state.disableAll} value={this.props.info.purpose} onChange={this.props.purposeHandler}>
                                 <option value="Hang Out">Hang Out</option>
                                 <option value="Study">Study</option>
                             </select>
@@ -148,7 +149,7 @@ class Form extends React.Component {
                 <div className="field">
                     <label className="label">Message</label>
                     <div className="control">
-                        <textarea className={`textarea ${this.state.message.submit && this.state.message.initial && !this.state.message.isValid && "is-danger"} ${this.state.message.submit && !this.state.message.initial && this.state.message.isValid && "is-success"}`} placeholder="Please leave a message!" value={this.props.info.message} onChange={this.messageHandler}></textarea>
+                        <textarea disabled={this.state.disableAll} className={`textarea ${this.state.message.submit && this.state.message.initial && !this.state.message.isValid && "is-danger"} ${this.state.message.submit && !this.state.message.initial && this.state.message.isValid && "is-success"}`} placeholder="Please leave a message!" value={this.props.info.message} onChange={this.messageHandler}></textarea>
                     </div>
                 </div>
             </div>
