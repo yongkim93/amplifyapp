@@ -115,7 +115,7 @@ class Grid extends React.Component {
         <td>
           <Cell
             taken={this.state.dateTime === currentDateTime.toString()}
-            time={currentDateTime.toString("HH:mm")}
+            time={currentDateTime.toString("h:mmtt")}
             info={this.state.appointments.get(this.getEpoch(currentDateTime))}
             dateTime={currentDateTime.toString()}
             modalHandler={this.activeModal}
@@ -129,7 +129,7 @@ class Grid extends React.Component {
           <td>
             <Cell
               taken={this.state.dateTime === currentDateTime.toString()}
-              time={currentDateTime.toString("HH:mm")}
+              time={currentDateTime.toString("h:mmtt")}
               info={this.state.appointments.get(this.getEpoch(currentDateTime))}
               dateTime={currentDateTime.toString()}
               modalHandler={this.activeModal}
