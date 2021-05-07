@@ -1,11 +1,10 @@
-import React from 'react';
-import logo from './logo.svg';
-import Navs from './navs/Navs';
-import './App.scss';
+import React from 'react'
+import logo from './logo.svg'
+import Navs from './navs/Navs'
+import './App.scss'
 
 class App extends React.Component {
-
-  componentDidMount() {
+  componentDidMount () {
     // const semanticJs = document.createElement("script");
     // const semanticCss = document.createElement("link");
     // semanticCss.rel = "stylesheet";
@@ -17,7 +16,7 @@ class App extends React.Component {
     // document.body.appendChild(semanticCss);
   }
 
-  render() {
+  render () {
     return (
       <div className="App fulldemention">
         <div className="Banner">
@@ -29,8 +28,8 @@ class App extends React.Component {
         <div className="main">
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

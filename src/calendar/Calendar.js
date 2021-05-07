@@ -1,24 +1,23 @@
-import React from 'react';
-import './Calendar.scss';
-import './grid/Grid'
-import Grid from './grid/Grid';
+import React from 'react'
+import './Calendar.scss'
+import Grid from './grid/Grid'
 
 class Calendar extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {}
+  }
 
-    constructor(props){
-        super(props);
-        this.state = {};
-    }
-    componentDidMount () {
-    }
+  componentDidMount () {
+  }
 
-    render(){
-        return (
+  render () {
+    return (
         <div className="calendar">
             <Grid />
         </div>
-        )
-    };
+    )
+  };
 }
 
-export default Calendar;
+export default Calendar

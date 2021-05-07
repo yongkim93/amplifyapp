@@ -1,28 +1,34 @@
-import React from 'react';
-import './Cell.scss';
+import React from 'react'
+import './Cell.scss'
 
 class Cell extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {}
 
-    constructor(props) {
-        super(props);
-        this.state = {};
+    this.clickHandler = this.clickHandler.bind(this)
+  }
 
-        this.clickHandler = this.clickHandler.bind(this);
+  clickHandler () {
+    if (!this.props.info) {
+      this.props.modalHandler(this.props.dateTime)
     }
+  }
 
-    clickHandler() {
-        if (!this.props.info)
-            this.props.modalHandler(this.props.dateTime);
-    }
-    componentDidMount() {
-    }
-    render() {
-        return (
-            <div className={`cell center ${(this.props.taken || this.props.info) && 'taken'}`} onClick={this.clickHandler}>
-                <p>{this.props.time}</p>
-            </div>
-        )
-    };
+  componentDidMount () {}
+
+  render () {
+    return (
+      <div
+        className={`cell center ${
+          (this.props.taken || this.props.info) && 'taken'
+        }`}
+        onClick={this.clickHandler}
+      >
+        <p>{this.props.time}</p>
+      </div>
+    )
+  }
 }
 
-export default Cell;
+export default Cell
