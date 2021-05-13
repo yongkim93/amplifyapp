@@ -2,6 +2,7 @@ import React from "react";
 import "./Grid.scss";
 import Cell from "./cell/Cell";
 import PutEvent from "../../dynamodb/app/PutEvent";
+import deleteEvent from "../../dynamodb/app/DeleteEvent";
 import ReadEvents from "../../dynamodb/app/ReadEvents";
 import Form from "../form/Form";
 require("datejs");
@@ -19,7 +20,7 @@ class Grid extends React.Component {
         message: "",
       },
       appointments: new Map(),
-      fetchedData: false,
+      isLoading: true,
     };
     this.activeModal = this.activeModal.bind(this);
     this.deActiveModal = this.deActiveModal.bind(this);
@@ -31,6 +32,8 @@ class Grid extends React.Component {
     this.resetFormInfo = this.resetFormInfo.bind(this);
     this.fetchData = this.fetchData.bind(this);
     this.formRef = React.createRef();
+    this.dropHandler = this.dropHandler.bind(this);
+    this.submitEvent = this.submitEvent.bind(this);
   }
 
   resetFormInfo() {
@@ -112,13 +115,19 @@ class Grid extends React.Component {
 
       // add monday
       children.push(
-        <td>
+        <td
+          onDragEnter={this.dragEnterHandler}
+          onDragOver={this.dragOverHandler}
+          onDragLeave={this.dragLeaveHandler}
+          onDrop={this.dropHandler}
+        >
           <Cell
             taken={this.state.dateTime === currentDateTime.toString()}
             time={currentDateTime.toString("h:mmtt")}
             info={this.state.appointments.get(this.getEpoch(currentDateTime))}
             dateTime={currentDateTime.toString()}
             modalHandler={this.activeModal}
+            id={this.getEpoch(currentDateTime)}
           />
         </td>
       );
@@ -126,13 +135,19 @@ class Grid extends React.Component {
       for (let j = 0; j < 6; j++) {
         currentDateTime.setDate(currentDateTime.getDate() + 1);
         children.push(
-          <td>
+          <td
+            onDragEnter={this.dragEnterHandler}
+            onDragOver={this.dragOverHandler}
+            onDragLeave={this.dragLeaveHandler}
+            onDrop={this.dropHandler}
+          >
             <Cell
               taken={this.state.dateTime === currentDateTime.toString()}
               time={currentDateTime.toString("h:mmtt")}
               info={this.state.appointments.get(this.getEpoch(currentDateTime))}
               dateTime={currentDateTime.toString()}
               modalHandler={this.activeModal}
+              id={this.getEpoch(currentDateTime)}
             />
           </td>
         );
@@ -148,7 +163,7 @@ class Grid extends React.Component {
     return Math.floor(dateTime.getTime() / 1000);
   }
 
-  submitHandler() {
+  async submitHandler() {
     // putEvent(...state)
     this.formRef.current.validateOnSubmit(true);
     if (
@@ -157,39 +172,74 @@ class Grid extends React.Component {
       this.formRef.current.state.message.isValid
     ) {
       let { dateTime, formInfo } = this.state;
-      dateTime = new Date(dateTime);
-      // cover up the page with loading
-      this.setState({ fetchedData: false });
-      // send data to dynamodb
-      PutEvent(
-        null,
-        null,
-        dateTime.toISOString(),
-        this.getEpoch(dateTime),
-        formInfo
-      ).then(() =>
-        this.fetchData().then(() => {
-          this.resetFormInfo();
-          this.formRef.current.reset();
-        })
-      );
+      console.log(dateTime);
+      await this.submitEvent(dateTime, formInfo);
+      await this.fetchData();
+      this.resetFormInfo();
+      this.formRef.current.reset();
     }
+  }
+
+  submitEvent(dateTime, formInfo) {
+    dateTime = new Date(dateTime);
+    // cover up the page with loading
+    // this.setState({ fetchData: true });
+    // send data to dynamodb
+    return PutEvent(
+      null,
+      null,
+      dateTime.toISOString(),
+      this.getEpoch(dateTime),
+      formInfo
+    );
   }
 
   fetchData() {
     return ReadEvents(
       "yongshine-guest",
       "guest",
-      1620122400,
+      null,
       this.state.appointments
-    ).then(() => this.setState({ fetchedData: true }));
+    );
   }
 
   componentDidMount() {
-    this.fetchData();
+    this.fetchData().then(() => this.setState({ isLoading: false }));
+  }
 
-    // this.setState({ appointments: await ReadEvents('yongshine-guest', 'guest', 1620122400) });
-    // console.log(this.state.appointments.get(1620122400));
+  dragEnterHandler(e) {
+    e.preventDefault();
+    e.target.classList.add("drag-over");
+  }
+
+  dragOverHandler(e) {
+    e.preventDefault();
+    e.target.classList.add("drag-over");
+  }
+
+  dragLeaveHandler(e) {
+    e.target.classList.remove("drag-over");
+  }
+
+  async dropHandler(e) {
+    e.persist();
+    e.target.style['pointer-events'] ="none";
+    e.target.classList.add("taken");
+    // e.target.removeEventListener('click',this.activeModal);
+    e.target.classList.remove("drag-over");
+    const id = e.dataTransfer.getData("text/plain");
+    if (id !== e.target.id) {
+      let dateTime = new Date(+e.target.id * 1000);
+      let { info } = this.state.appointments.get(+id);
+      this.state.appointments.delete(+id);
+      await this.submitEvent(dateTime, info);
+      await deleteEvent("yongshine-guest", "guest", +id);
+      await this.fetchData();
+      this.setState({ appointments: new Map(this.state.appointments) });
+    }
+    e.target.style['pointer-events'] ="auto";
+    // this.resetFormInfo();
+    // this.formRef.current.reset();
   }
 
   render() {
