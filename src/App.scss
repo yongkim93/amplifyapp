@@ -1,5 +1,4 @@
 .App {
-
 }
 
 .App-logo {
@@ -13,32 +12,32 @@
   }
 }
 
-.fulldemention{
-  width:100%;
-  height:100%;
-  margin:0px;
-  padding:0px;
-}
-
-.nav-section{
+.fulldemention {
   width: 100%;
-  min-height:5rem;
-  background-color:#f7f7ee;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
 }
 
-.Banner{
-  width:100%;
-  min-height:20rem;
-  background-color:#b6eb7a;
+.nav-section {
+  width: 100%;
+  min-height: 5rem;
+  background-color: #f7f7ee;
+}
+
+.Banner {
+  width: 100%;
+  min-height: 20rem;
+  background-color: #b6eb7a;
   display: flex;
   align-items: center;
   justify-content: center;
-  .banner-title{
+  .banner-title {
     color: white;
   }
 }
 
-.main{
+.main {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -57,6 +56,16 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
 }
 
 @keyframes App-logo-spin {

@@ -4,6 +4,7 @@ import Main from "../main/Main";
 import Sticker from "../sticker/Sticker";
 import Calendar from "../calendar/Calendar";
 import DragAndDrop from "../drag-and-drop/DragAndDrop";
+import DragAndCreate from "../drag-and-create/DragAndCreate";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function Navs() {
@@ -57,6 +58,9 @@ function Navs() {
               <Link className="navbar-item" to="/DragAndDrop">
                 Drag-And-Drop
               </Link>
+              <Link className="navbar-item" to="/DragAndCreate">
+                Drag-And-Create
+              </Link>
               <div className="navbar-item has-dropdown is-hoverable">
                 <a className="navbar-link">More</a>
 
@@ -84,6 +88,9 @@ function Navs() {
         </nav>
         <div className="card-body">
           <Switch>
+          <Route path="/DragAndCreate">
+              <DragAndCreate />
+            </Route>
             <Route path="/DragAndDrop">
               <DragAndDrop />
             </Route>

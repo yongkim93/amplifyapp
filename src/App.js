@@ -18,7 +18,7 @@ class App extends React.Component {
 
   render () {
     return (
-      <div className="App fulldemention">
+      <div className="App fulldemention noselect">
         <div className="Banner">
           <h1 className="banner-title">Welcome to Yongshine.info</h1>
         </div>
