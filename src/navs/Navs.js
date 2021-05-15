@@ -80,10 +80,7 @@ function Navs() {
 
             <div className="navbar-end">
               <div className="navbar-item">
-                <div class="g-signin2"></div>
-                <button class="button" onClick={signOut}>
-                  Button
-                </button>
+                <button class="button">Button</button>
               </div>
             </div>
           </div>
