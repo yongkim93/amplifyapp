@@ -1,5 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Navs.scss";
+import Main from "../main/Main";
+import Sticker from "../sticker/Sticker";
+import Calendar from "../calendar/Calendar";
+import DragAndDrop from "../drag-and-drop/DragAndDrop";
+import DragAndCreate from "../drag-and-create/DragAndCreate";
+import VerticalGrid from "../responsive-grid/VerticalGrid";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import GoogleLoginButton from "../google-login/GoogleLoginButton";
 import GoogleLogoutButton from "../google-login/GoogleLogoutButton";
@@ -48,17 +54,20 @@ function Navs() {
               Home
             </Link>
 
-            <Link className="navbar-item" to="/appointment">
-              Appointment
-            </Link>
-            <Link className="navbar-item" to="/DragAndDrop">
-              Drag-And-Drop
-            </Link>
-            <Link className="navbar-item" to="/DragAndCreate">
-              Drag-And-Create
-            </Link>
-            <div className="navbar-item has-dropdown is-hoverable">
-              <a className="navbar-link">More</a>
+              <Link className="navbar-item" to="/appointment">
+                Appointment
+              </Link>
+              <Link className="navbar-item" to="/DragAndDrop">
+                Drag-And-Drop
+              </Link>
+              <Link className="navbar-item" to="/DragAndCreate">
+                Drag-And-Create
+              </Link>
+              <Link className="navbar-item" to="/ResponsiveGrid">
+                Grid
+              </Link>
+              <div className="navbar-item has-dropdown is-hoverable">
+                <a className="navbar-link">More</a>
 
               <div className="navbar-dropdown">
                 <a className="navbar-item">About</a>
