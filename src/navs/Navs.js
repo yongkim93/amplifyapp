@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Navs.scss";
 import Main from "../main/Main";
 import Sticker from "../sticker/Sticker";
 import Calendar from "../calendar/Calendar";
 import DragAndDrop from "../drag-and-drop/DragAndDrop";
 import DragAndCreate from "../drag-and-create/DragAndCreate";
+import VerticalGrid from "../responsive-grid/VerticalGrid";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function Navs() {
@@ -61,6 +62,9 @@ function Navs() {
               <Link className="navbar-item" to="/DragAndCreate">
                 Drag-And-Create
               </Link>
+              <Link className="navbar-item" to="/ResponsiveGrid">
+                Grid
+              </Link>
               <div className="navbar-item has-dropdown is-hoverable">
                 <a className="navbar-link">More</a>
 
@@ -76,19 +80,20 @@ function Navs() {
 
             <div className="navbar-end">
               <div className="navbar-item">
-                <div className="buttons">
-                  <a className="button is-primary">
-                    <strong>Sign up</strong>
-                  </a>
-                  <a className="button is-light">Log in</a>
-                </div>
+                <div class="g-signin2"></div>
+                <button class="button" onClick={signOut}>
+                  Button
+                </button>
               </div>
             </div>
           </div>
         </nav>
         <div className="card-body">
           <Switch>
-          <Route path="/DragAndCreate">
+            <Route path="/ResponsiveGrid">
+              <VerticalGrid />
+            </Route>
+            <Route path="/DragAndCreate">
               <DragAndCreate />
             </Route>
             <Route path="/DragAndDrop">
