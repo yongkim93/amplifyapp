@@ -7,22 +7,36 @@ const userInfo = createContext({});
 const { Provider } = userInfo;
 
 const UserInfoProvider = ({ children }) => {
-  const [state, dispatch] = useReducer((state, action) => {
-    switch (action.type) {
-      case "LOGIN":
-        return {
-          loggedIn: true,
-          userInfo: action.payload,
-        };
-      case "LOGOUT":
-        return {
-          loggedIn: false,
-          userInfo: {}
-        };
-      default:
-        throw new Error();
+  const [state, dispatch] = useReducer(
+    (state, action) => {
+      switch (action.type) {
+        case "LOGIN":
+          return {
+            loggedIn: true,
+            userInfo: action.payload,
+          };
+        case "LOGOUT":
+          return {
+            loggedIn: false,
+            userInfo: {},
+          };
+        default:
+          throw new Error();
+      }
+    },
+    {
+      loggedIn: false,
+      userInfo: {
+        email: "",
+        familyName: "",
+        givenName: "",
+        googleId: "",
+        imageUrl:
+          "",
+        name: "",
+      },
     }
-  }, {});
+  );
 
   return <Provider value={{ state, dispatch }}>{children}</Provider>;
 };
