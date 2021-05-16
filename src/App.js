@@ -1,35 +1,61 @@
-import React from 'react'
-import logo from './logo.svg'
-import Navs from './navs/Navs'
-import './App.scss'
+import React from "react";
+import logo from "./logo.svg";
+import Navs from "./navs/Navs";
+import "./App.scss";
+import Main from "./main/Main";
+import Sticker from "./sticker/Sticker";
+import Calendar from "./calendar/Calendar";
+import DragAndDrop from "./drag-and-drop/DragAndDrop";
+import DragAndCreate from "./drag-and-create/DragAndCreate";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { UserInfoProvider } from "./google-login/googleUtil";
 
 class App extends React.Component {
-  componentDidMount () {
+  componentDidMount() {
     // const semanticJs = document.createElement("script");
     // const semanticCss = document.createElement("link");
     // semanticCss.rel = "stylesheet";
     // semanticCss.href = "https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css";
     // semanticJs.src = "https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js";
     // semanticJs.async = true;
-
     // document.body.appendChild(semanticJs);
     // document.body.appendChild(semanticCss);
   }
 
-  render () {
+  render() {
     return (
-      <div className="App fulldemention noselect">
-        <div className="Banner">
-          <h1 className="banner-title">Welcome to Yongshine.info</h1>
+      <UserInfoProvider>
+        <div className="App fulldemention noselect">
+          <div className="Banner">
+            <h1 className="banner-title">Welcome to Yongshine.info</h1>
+          </div>
+          <Router>
+            <div className="nav-section">
+              <Navs />
+            </div>
+            <div className="main">
+              <div className="card-body">
+                <Switch>
+                  <Route path="/DragAndCreate">
+                    <DragAndCreate />
+                  </Route>
+                  <Route path="/DragAndDrop">
+                    <DragAndDrop />
+                  </Route>
+                  <Route path="/appointment">
+                    <Calendar />
+                  </Route>
+                  <Route path="/">
+                    <Main />
+                  </Route>
+                </Switch>
+              </div>
+            </div>
+          </Router>
         </div>
-        <div className="nav-section">
-          <Navs />
-        </div>
-        <div className="main">
-        </div>
-      </div>
-    )
+      </UserInfoProvider>
+    );
   }
 }
 
-export default App
+export default App;
