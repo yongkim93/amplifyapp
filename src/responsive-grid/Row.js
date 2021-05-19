@@ -8,7 +8,7 @@ const Row = () => {
 
   const style = {
     width: windowSizeState?.width,
-    height: windowSizeState?.height / 24,
+    height: windowSizeState?.rowHeight,
   };
 
   for (let i = 1; i < 25; i++) {

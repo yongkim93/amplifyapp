@@ -30,8 +30,9 @@ const WindowSizeProvider = ({ children }) => {
         return {
           width,
           height,
-          colWidth: width / 7,
-          rowHeight: height / 24,
+          colWidth: Math.round(width / 7),
+          rowHeight: Math.round(height / 24),
+          interval: Math.round(height / 24 / 4)
         };
       default:
         return state;

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useWindowSize } from "../utility/windowSize";
 
 const useMouseDown = () => {
@@ -45,8 +45,8 @@ const useMouseUp = () => {
 };
 
 const useDraw = () => {
-  const { dispatch: windowSizeDispatch, getState: getWindowSizeState } =
-    useWindowSize();
+  const { getState: getWindowSizeState } = useWindowSize();
+  const myref = useRef(0);
 
   const [mouseStartPosition, setMouseStartPosition] = useState({
     x_start: null,
@@ -64,32 +64,73 @@ const useDraw = () => {
 
   const onMouseMove = (e) => {
     e.preventDefault();
-    console.log("move");
-    // -1 for border size 1px
-    setMouseEndPosition({ x_end: e.pageX - e.offsetX + getWindowSizeState().colWidth - 1, y_end: e.pageY });
+    if (e.offsetY - myref.current > 0) {
+    //   console.log(e.offsetY - myref.current);
+
+      // -1 for border size 1px
+      setMouseEndPosition((prev) => {
+        // console.log(prev);
+        const y =
+          e.pageY -
+          e.offsetY +
+          getWindowSizeState().rowHeight *
+            Math.ceil(e.offsetY / getWindowSizeState().rowHeight);
+
+          return {
+            x_end: e.pageX - e.offsetX + getWindowSizeState().colWidth - 1,
+            y_end: y,
+          };
+      });
+    }
   };
 
   const onMouseDown = (e) => {
     e.preventDefault();
+    myref.current = e.offsetY;
     window.addEventListener("mousemove", onMouseMove);
-    setMouseStartPosition({ x_start: e.pageX - e.offsetX, y_start: e.pageY });
+    setMouseStartPosition({
+      x_start: e.pageX - e.offsetX,
+      y_start:
+        e.pageY -
+        e.offsetY +
+        getWindowSizeState().rowHeight *
+          Math.floor(e.offsetY / getWindowSizeState().rowHeight),
+    });
   };
 
   const onMouseUp = (e) => {
     e.preventDefault();
-    console.log("fire");
     window.removeEventListener("mousemove", onMouseMove);
+
     // -1 for border size 1px
-    setMouseEndPosition({ x_end: e.pageX - e.offsetX + getWindowSizeState().colWidth - 1 , y_end: e.pageY });
+    setMouseEndPosition((prev) => {
+      //   console.log(prev);
+      if (prev.y_end) {
+        return {
+          x_end: e.pageX - e.offsetX + getWindowSizeState().colWidth - 1,
+          y_end:
+            e.pageY -
+            e.offsetY +
+            getWindowSizeState().rowHeight *
+              Math.ceil(e.offsetY / getWindowSizeState().rowHeight),
+        };
+      } else {
+        return prev;
+      }
+    });
   };
 
   useEffect(() => {
     window.addEventListener("mouseup", onMouseUp);
-    document.getElementById("vertical_grid").addEventListener("mousedown", onMouseDown);
+    document
+      .getElementById("vertical_grid")
+      .addEventListener("mousedown", onMouseDown);
 
     return () => {
-        window.removeEventListener("mouseup", onMouseUp);
-        document.getElementById("vertical_grid").removeEventListener("mousedown", onMouseDown);
+      window.removeEventListener("mouseup", onMouseUp);
+      document
+        .getElementById("vertical_grid")
+        .removeEventListener("mousedown", onMouseDown);
     };
   }, []);
 

@@ -7,7 +7,7 @@ const Column = () => {
   const elements = [];
 
   const style = {
-    width: windowSizeState?.width / 7,
+    width: windowSizeState?.colWidth,
     height: windowSizeState?.height,
   };
 

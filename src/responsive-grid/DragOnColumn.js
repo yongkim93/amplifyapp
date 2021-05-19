@@ -17,8 +17,8 @@ export default function DragAndCreate() {
 
   const mystyle = {
     position: "absolute",
-    width: x_end - x_start < 0 ? "undefined" : x_end - x_start,
-    height: y_end - y_start < 0 ? "undefined" : y_end - y_start,
+    width: x_end - x_start < -1 ? "undefined" : x_end - x_start,
+    height: y_end - y_start < -1 ? "undefined" : y_end - y_start,
     backgroundColor: "yellow",
     left: x_start,
     top: y_start,
@@ -50,12 +50,10 @@ export default function DragAndCreate() {
         y_end = value.y_end;
         return value;
       });
-      console.log(x_start, x_end, y_start, y_end);
+
       //must add key later
       setList((value) => {
-        console.log(x_start - x_end, y_start - y_end);
-        if (x_end - x_start > 0 && y_end - y_start > 0) {
-          console.log("hi");
+        if (x_end - x_start > 1 && y_end - y_start > 1) {
           return [
             ...value,
             <div
