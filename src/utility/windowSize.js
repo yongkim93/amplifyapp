@@ -23,16 +23,17 @@ const useEnhancedReducer = (reducer, initState, initializer) => {
 };
 
 const WindowSizeProvider = ({ children }) => {
-  const [state, dispatch, getState ] = useEnhancedReducer((state, action) => {
+  const [state, dispatch, getState] = useEnhancedReducer((state, action) => {
     switch (action.type) {
       case "RESIZE":
         const { width, height } = action.payload;
         return {
           width,
           height,
-          colWidth: Math.round(width / 7),
-          rowHeight: Math.round(height / 24),
-          interval: Math.round(height / 24 / 4)
+          // -1 for the border px
+          colWidth: Math.round(width / 7) - 1,
+          rowHeight: height / 24,
+          interval: height / 24 / 2,
         };
       default:
         return state;

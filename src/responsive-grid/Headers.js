@@ -19,7 +19,7 @@ const RowHeader = () => {
   );
   for (let i = 1; i < 25; i++) {
     elements.push(
-      <div key={i} className="border-right border-bottom" style={style} />
+      <div key={i} className="border-right border-bottom" style={style}></div>
     );
   }
 

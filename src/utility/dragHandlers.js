@@ -65,21 +65,17 @@ const useDraw = () => {
   const onMouseMove = (e) => {
     e.preventDefault();
     if (e.offsetY - myref.current > 0) {
-    //   console.log(e.offsetY - myref.current);
-
-      // -1 for border size 1px
       setMouseEndPosition((prev) => {
-        // console.log(prev);
-        const y =
-          e.pageY -
-          e.offsetY +
-          getWindowSizeState().rowHeight *
-            Math.ceil(e.offsetY / getWindowSizeState().rowHeight);
-
-          return {
-            x_end: e.pageX - e.offsetX + getWindowSizeState().colWidth - 1,
-            y_end: y,
-          };
+        return {
+          x_end: e.pageX - e.offsetX + getWindowSizeState().colWidth,
+          y_end:
+            e.pageY -
+            e.offsetY +
+            Math.ceil(
+              getWindowSizeState().interval *
+                Math.ceil(e.offsetY / getWindowSizeState().interval)
+            ),
+        };
       });
     }
   };
@@ -92,9 +88,10 @@ const useDraw = () => {
       x_start: e.pageX - e.offsetX,
       y_start:
         e.pageY -
-        e.offsetY +
-        getWindowSizeState().rowHeight *
-          Math.floor(e.offsetY / getWindowSizeState().rowHeight),
+        e.offsetY -
+        1 +
+        getWindowSizeState().interval *
+          Math.floor(e.offsetY / getWindowSizeState().interval),
     });
   };
 
@@ -102,17 +99,15 @@ const useDraw = () => {
     e.preventDefault();
     window.removeEventListener("mousemove", onMouseMove);
 
-    // -1 for border size 1px
     setMouseEndPosition((prev) => {
-      //   console.log(prev);
       if (prev.y_end) {
         return {
-          x_end: e.pageX - e.offsetX + getWindowSizeState().colWidth - 1,
+          x_end: e.pageX - e.offsetX + getWindowSizeState().colWidth,
           y_end:
             e.pageY -
             e.offsetY +
-            getWindowSizeState().rowHeight *
-              Math.ceil(e.offsetY / getWindowSizeState().rowHeight),
+            getWindowSizeState().interval *
+              Math.ceil(e.offsetY / getWindowSizeState().interval),
         };
       } else {
         return prev;
