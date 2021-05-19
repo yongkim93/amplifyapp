@@ -64,30 +64,31 @@ const useDraw = () => {
 
   const onMouseMove = (e) => {
     e.preventDefault();
+    console.log("move");
     // -1 for border size 1px
     setMouseEndPosition({ x_end: e.pageX - e.offsetX + getWindowSizeState().colWidth - 1, y_end: e.pageY });
   };
 
   const onMouseDown = (e) => {
     e.preventDefault();
-    console.log("down")
-    document.getElementById("vertical_grid").addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mousemove", onMouseMove);
     setMouseStartPosition({ x_start: e.pageX - e.offsetX, y_start: e.pageY });
   };
 
   const onMouseUp = (e) => {
     e.preventDefault();
-    document.getElementById("vertical_grid").removeEventListener("mousemove", onMouseMove);
+    console.log("fire");
+    window.removeEventListener("mousemove", onMouseMove);
     // -1 for border size 1px
     setMouseEndPosition({ x_end: e.pageX - e.offsetX + getWindowSizeState().colWidth - 1 , y_end: e.pageY });
   };
 
   useEffect(() => {
-    document.getElementById("vertical_grid").addEventListener("mouseup", onMouseUp);
+    window.addEventListener("mouseup", onMouseUp);
     document.getElementById("vertical_grid").addEventListener("mousedown", onMouseDown);
 
     return () => {
-        document.getElementById("vertical_grid").removeEventListener("mouseup", onMouseUp);
+        window.removeEventListener("mouseup", onMouseUp);
         document.getElementById("vertical_grid").removeEventListener("mousedown", onMouseDown);
     };
   }, []);

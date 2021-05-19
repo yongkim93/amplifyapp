@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import { useMouseDown, useMouseUp, useDraw } from "../utility/dragHandlers";
-import { useWindowSize } from "../utility/windowSize";
 
 export default function DragAndCreate() {
   const {
@@ -18,8 +17,8 @@ export default function DragAndCreate() {
 
   const mystyle = {
     position: "absolute",
-    width: x_end ? Math.abs(x_start - x_end) : 0,
-    height: y_end ? Math.abs(y_start - y_end) : 0,
+    width: x_end - x_start < 0 ? "undefined" : x_end - x_start,
+    height: y_end - y_start < 0 ? "undefined" : y_end - y_start,
     backgroundColor: "yellow",
     left: x_start,
     top: y_start,
@@ -54,17 +53,23 @@ export default function DragAndCreate() {
       console.log(x_start, x_end, y_start, y_end);
       //must add key later
       setList((value) => {
-        return [
-          ...value,
-          <div
-            style={mystyleTemplate(
-              Math.abs(x_start - x_end),
-              Math.abs(y_start - y_end),
-              x_start,
-              y_start
-            )}
-          ></div>,
-        ];
+        console.log(x_start - x_end, y_start - y_end);
+        if (x_end - x_start > 0 && y_end - y_start > 0) {
+          console.log("hi");
+          return [
+            ...value,
+            <div
+              style={mystyleTemplate(
+                x_end - x_start,
+                y_end - y_start,
+                x_start,
+                y_start
+              )}
+            ></div>,
+          ];
+        } else {
+          return value;
+        }
       });
     }
     reset();
