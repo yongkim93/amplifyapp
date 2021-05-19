@@ -63,7 +63,7 @@ function Navs() {
               <Link className="navbar-item" to="/DragAndCreate">
                 Drag-And-Create
               </Link>
-              <Link className="navbar-item" to="/ResponsiveGrid">
+              <Link className="navbar-item" to="/VerticalGrid">
                 Grid
               </Link>
               <div className="navbar-item has-dropdown is-hoverable">
