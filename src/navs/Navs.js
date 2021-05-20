@@ -66,7 +66,7 @@ function Navs() {
               <Link className="navbar-item" to="/DragAndCreate">
                 Drag-And-Create
               </Link>
-              <Link className="navbar-item" onClick={refresh}>
+              <Link className="navbar-item" to="" onClick={refresh}>
                 Grid
               </Link>
               <div className="navbar-item has-dropdown is-hoverable">
