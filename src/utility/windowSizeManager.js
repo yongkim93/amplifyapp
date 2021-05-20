@@ -1,26 +1,8 @@
-import React, {
-  useContext,
-  createContext,
-  useReducer,
-  useCallback,
-  useRef,
-} from "react";
+import React, { useContext, createContext } from "react";
+import useEnhancedReducer from "./useEnhancedReducer";
 
 const windowSizeInfo = createContext({});
 const { Provider } = windowSizeInfo;
-
-const useEnhancedReducer = (reducer, initState, initializer) => {
-  const lastState = useRef(initState);
-  const getState = useCallback(() => lastState.current, []);
-  return [
-    ...useReducer(
-      (state, action) => (lastState.current = reducer(state, action)),
-      initState,
-      initializer
-    ),
-    getState,
-  ];
-};
 
 const WindowSizeProvider = ({ children }) => {
   const [state, dispatch, getState] = useEnhancedReducer((state, action) => {
@@ -30,9 +12,8 @@ const WindowSizeProvider = ({ children }) => {
         return {
           width,
           height,
-          // -1 for the border px
-          colWidth: Math.round(width / 7) - 1,
-          rowHeight: height / 24,
+          colWidth: Math.round(width / 7) - 1, // -1 for the border px
+          rowHeight: height / 48,
           interval: height / 24 / 2,
         };
       default:

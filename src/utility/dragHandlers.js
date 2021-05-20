@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useWindowSize } from "../utility/windowSize";
+import { useWindowSize } from "./windowSizeManager";
 
 const useMouseDown = () => {
   const [mousePosition, setMousePosition] = useState({

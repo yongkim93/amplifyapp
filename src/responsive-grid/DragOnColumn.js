@@ -1,6 +1,6 @@
-import React, { Fragment, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { useMouseDown, useMouseUp, useDraw } from "../utility/dragHandlers";
+import { useDraw } from "../utility/dragHandlers";
 
 export default function DragAndCreate() {
   const {

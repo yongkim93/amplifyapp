@@ -1,11 +1,13 @@
 import React, { useLayoutEffect, useRef } from "react";
-import { useWindowSize, WindowSizeProvider } from "../utility/windowSize";
+import {
+  useWindowSize
+} from "../utility/windowSizeManager";
 import { RowHeader, ColumnHeader } from "./Headers";
 import Column from "./Column";
 import Row from "./Row";
 import DragAndCreate from "./DragOnColumn";
 import "./VerticalGrid.scss";
-import { CloudHSM } from "aws-sdk";
+import { DateTimeProvider } from "../utility/DateTimeManager";
 
 const VerticalGrid = (props) => {
   const { state: windowSizeState, dispatch: windowSizeDispatch } =
@@ -34,19 +36,21 @@ const VerticalGrid = (props) => {
   }, []);
 
   return (
-    <div className="row-align">
-      <RowHeader />
-      <div className="colunm-align">
-        <ColumnHeader />
-        <div className="vertical_grid" id="vertical_grid">
-          <div className="horizontal_grid" id="horizontal_grid">
-            <Row />
+    <DateTimeProvider>
+      <div className="row-align">
+        <RowHeader />
+        <div className="colunm-align">
+          <ColumnHeader />
+          <div className="vertical_grid" id="vertical_grid">
+            <div className="horizontal_grid" id="horizontal_grid">
+              <Row />
+            </div>
+            <Column />
+            <DragAndCreate />
           </div>
-          <Column />
-          <DragAndCreate />
         </div>
       </div>
-    </div>
+    </DateTimeProvider>
   );
 };
 

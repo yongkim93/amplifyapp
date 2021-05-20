@@ -1,5 +1,5 @@
 import React from "react";
-import { useWindowSize } from "../utility/windowSize";
+import { useWindowSize } from "../utility/windowSizeManager";
 import "./Row.scss";
 
 const Row = () => {
@@ -11,8 +11,8 @@ const Row = () => {
     height: windowSizeState?.rowHeight,
   };
 
-  for (let i = 1; i < 25; i++) {
-    elements.push(<div key={i} className="border-bottom row-header" style={style}></div>);
+  for (let i = 0; i < 48; i++) {
+    elements.push(<div key={i} className={`${i % 2 ? "border-bottom" : "border-bottom-dashed"} row-header`} style={style}></div>);
   }
 
   return elements;

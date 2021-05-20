@@ -1,11 +1,24 @@
-
-
 .row-header {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
-.col-header{
-    display: flex;
-    flex-direction: row;
+.background-color{
+    background-color: white;
+    z-index: 1;
+}
+
+.col-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.border-bottom-dashed {
+  border-bottom: 1px dashed #dee2e6 !important;
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }

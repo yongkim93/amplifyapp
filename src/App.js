@@ -10,7 +10,7 @@ import DragAndCreate from "./drag-and-create/DragAndCreate";
 import VerticalGrid from "./responsive-grid/VerticalGrid";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { UserInfoProvider } from "./google-login/googleUtil";
-import { useWindowSize, WindowSizeProvider } from "./utility/windowSize";
+import { useWindowSize, WindowSizeProvider } from "./utility/windowSizeManager";
 
 class App extends React.Component {
   componentDidMount() {

@@ -1,5 +1,5 @@
 import React from "react";
-import { useWindowSize } from "../utility/windowSize";
+import { useWindowSize } from "../utility/windowSizeManager";
 import "./Column.scss";
 
 const Column = () => {
