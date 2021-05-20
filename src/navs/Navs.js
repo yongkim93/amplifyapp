@@ -22,6 +22,9 @@ function Navs() {
   function Users() {
     return <h2>Users</h2>;
   }
+  function refresh(){
+    window.location.href = "http://localhost:3000/VerticalGrid";
+  }
 
   return (
     <div className="card text-center">
@@ -63,7 +66,7 @@ function Navs() {
               <Link className="navbar-item" to="/DragAndCreate">
                 Drag-And-Create
               </Link>
-              <Link className="navbar-item" to="/VerticalGrid">
+              <Link className="navbar-item" onClick={refresh}>
                 Grid
               </Link>
               <div className="navbar-item has-dropdown is-hoverable">
