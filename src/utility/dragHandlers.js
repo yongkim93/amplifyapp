@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { useWindowSize } from "./windowSizeManager";
 
 const useMouseDown = () => {
@@ -115,7 +115,7 @@ const useDraw = () => {
     });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.addEventListener("mouseup", onMouseUp);
     document
       .getElementById("vertical_grid")
@@ -123,9 +123,7 @@ const useDraw = () => {
 
     return () => {
       window.removeEventListener("mouseup", onMouseUp);
-      document
-        .getElementById("vertical_grid")
-        .removeEventListener("mousedown", onMouseDown);
+      document.getElementById("vertical_grid") && document.getElementById("vertical_grid").removeEventListener("mousedown", onMouseDown);
     };
   }, []);
 
