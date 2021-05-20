@@ -1,13 +1,12 @@
-import React, { useLayoutEffect, useRef } from "react";
-import {
-  useWindowSize
-} from "../utility/windowSizeManager";
+import React, { useLayoutEffect, useRef, Fragment } from "react";
+import { useWindowSize } from "../utility/windowSizeManager";
 import { RowHeader, ColumnHeader } from "./Headers";
 import Column from "./Column";
 import Row from "./Row";
 import DragAndCreate from "./DragOnColumn";
 import "./VerticalGrid.scss";
 import { DateTimeProvider } from "../utility/DateTimeManager";
+import { EventManagerProvider } from "../utility/useEventManager";
 
 const VerticalGrid = (props) => {
   const { state: windowSizeState, dispatch: windowSizeDispatch } =
@@ -36,21 +35,25 @@ const VerticalGrid = (props) => {
   }, []);
 
   return (
-    <DateTimeProvider>
-      <div className="row-align">
-        <RowHeader />
-        <div className="colunm-align">
-          <ColumnHeader />
-          <div className="vertical_grid" id="vertical_grid">
-            <div className="horizontal_grid" id="horizontal_grid">
-              <Row />
+    <Fragment>
+      <DateTimeProvider>
+        <div className="row-align">
+          <RowHeader />
+          <div className="colunm-align">
+            <ColumnHeader />
+            <div className="vertical_grid" id="vertical_grid">
+              <div className="horizontal_grid" id="horizontal_grid">
+                <Row />
+              </div>
+              <EventManagerProvider>
+                <Column />
+              </EventManagerProvider>
             </div>
-            <Column />
-            <DragAndCreate />
           </div>
         </div>
-      </div>
-    </DateTimeProvider>
+      </DateTimeProvider>
+      <DragAndCreate />
+    </Fragment>
   );
 };
 
