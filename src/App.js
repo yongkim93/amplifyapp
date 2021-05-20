@@ -7,8 +7,10 @@ import Sticker from "./sticker/Sticker";
 import Calendar from "./calendar/Calendar";
 import DragAndDrop from "./drag-and-drop/DragAndDrop";
 import DragAndCreate from "./drag-and-create/DragAndCreate";
+import VerticalGrid from "./responsive-grid/VerticalGrid";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { UserInfoProvider } from "./google-login/googleUtil";
+import { useWindowSize, WindowSizeProvider } from "./utility/windowSizeManager";
 
 class App extends React.Component {
   componentDidMount() {
@@ -25,7 +27,7 @@ class App extends React.Component {
   render() {
     return (
       <UserInfoProvider>
-        <div className="App fulldemention noselect">
+        <div className="App fulldemention noselect full-height">
           <div className="Banner">
             <h1 className="banner-title">Welcome to Yongshine.info</h1>
           </div>
@@ -34,8 +36,13 @@ class App extends React.Component {
               <Navs />
             </div>
             <div className="main">
-              <div className="card-body">
+              <div className="card-body" style={{width: "100%"}}>
                 <Switch>
+                  <Route path="/VerticalGrid">
+                    <WindowSizeProvider>
+                      <VerticalGrid />
+                    </WindowSizeProvider>
+                  </Route>
                   <Route path="/DragAndCreate">
                     <DragAndCreate />
                   </Route>
