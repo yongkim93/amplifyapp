@@ -5,7 +5,10 @@ const useEnhancedReducer = (reducer, initState, initializer) => {
   const getState = useCallback(() => lastState.current, []);
   return [
     ...useReducer(
-      (state, action) => (lastState.current = reducer(state, action)),
+      useCallback(
+        (state, action) => (lastState.current = reducer(state, action)),
+        [lastState]
+      ),
       initState,
       initializer
     ),
