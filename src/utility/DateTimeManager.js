@@ -7,7 +7,7 @@ const { Provider } = dateTimeInfo;
 
 const initialState = {
   currentDate: new Date(),
-  mondayOfTheCurrentWeek: new Date().last().monday(),
+  mondayOfTheCurrentWeek: new Date().last().monday().setHours(0, 0, 0, 0),
 };
 
 const DateTimeProvider = ({ children }) => {
@@ -25,4 +25,12 @@ const DateTimeProvider = ({ children }) => {
 
 const useDateTimeManager = () => useContext(dateTimeInfo);
 
-export { useDateTimeManager, DateTimeProvider };
+const getDateToEpoch = (dateTime) => {
+  return Math.floor(dateTime.getTime() / 1000);
+};
+
+const getEpochToDate = (epoch) => {
+  return new Date(+epoch * 1000);
+};
+
+export { useDateTimeManager, DateTimeProvider, getDateToEpoch, getEpochToDate };

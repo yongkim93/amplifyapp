@@ -1,4 +1,12 @@
-import React, { useLayoutEffect, useRef, Fragment } from "react";
+import React, {
+  useLayoutEffect,
+  useCallback,
+  useRef,
+  Fragment,
+  useEffect,
+  useMemo,
+  useState
+} from "react";
 import { useWindowSize } from "../utility/windowSizeManager";
 import { RowHeader, ColumnHeader } from "./Headers";
 import Column from "./Column";
@@ -9,9 +17,8 @@ import { DateTimeProvider } from "../utility/DateTimeManager";
 import { EventManagerProvider } from "../utility/useEventManager";
 
 const VerticalGrid = (props) => {
-  const { state: windowSizeState, dispatch: windowSizeDispatch } =
-    useWindowSize();
-
+  const { dispatch: windowSizeDispatch } = useWindowSize();
+  
   const setResizedWindow = () => {
     const el = document.getElementById("vertical_grid");
     windowSizeDispatch({
@@ -20,17 +27,10 @@ const VerticalGrid = (props) => {
     });
   };
 
-  const reportWindowSize = () => {
-    setResizedWindow();
-    // const el = document.getElementById("vertical_grid");
-    // console.log(el.clientWidth, el.clientHeight);
-  };
-
-  useLayoutEffect(() => {
-    setResizedWindow();
-    window.addEventListener("resize", reportWindowSize);
+  useEffect(() => {
+    window.addEventListener("resize", setResizedWindow);
     return () => {
-      window.removeEventListener("resize", reportWindowSize);
+      window.removeEventListener("resize", setResizedWindow);
     };
   }, []);
 

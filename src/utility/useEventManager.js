@@ -18,7 +18,7 @@ const EventManagerProvider = ({ children }) => {
     }
   }, initialState);
 
-  const refreshEventManager = () => {
+  const refreshEvents = () => {
     ReadEvents("yongshine-guest", "guest", null).then((data) => {
       const events = new Map();
       data.Items.forEach((item) => {
@@ -29,10 +29,10 @@ const EventManagerProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    refreshEventManager();
+    refreshEvents();
   }, []);
 
-  return <Provider value={{ state, dispatch, getState, refreshEventManager }}>{children}</Provider>;
+  return <Provider value={{ state, dispatch, getState, refreshEvents }}>{children}</Provider>;
 };
 
 const useEventManager = () => useContext(eventsInfo);
