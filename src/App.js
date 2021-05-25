@@ -11,6 +11,7 @@ import VerticalGrid from "./responsive-grid/VerticalGrid";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { UserInfoProvider } from "./google-login/googleUtil";
 import { useWindowSize, WindowSizeProvider } from "./utility/windowSizeManager";
+import {DateTimeProvider} from "./utility/DateTimeManager"
 
 const App = () => {
   return (
@@ -28,7 +29,9 @@ const App = () => {
               <Switch>
                 <Route path="/VerticalGrid">
                   <WindowSizeProvider>
-                    <VerticalGrid />
+                    <DateTimeProvider>
+                      <VerticalGrid />
+                    </DateTimeProvider>
                   </WindowSizeProvider>
                 </Route>
                 <Route path="/DragAndCreate">

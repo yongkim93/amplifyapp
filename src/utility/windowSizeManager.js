@@ -24,6 +24,7 @@ const WindowSizeProvider = ({ children }) => {
             colWidth: Math.round(width / 7) - 1, // -1 for the border px
             rowHeight: height / 48,
             interval: height / 24 / 2,
+            intervalMinutes: 30,
             offsetLeft,
             offsetTop
           };

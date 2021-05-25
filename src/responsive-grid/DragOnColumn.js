@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment, useRef } from "react";
 import ReactDOM from "react-dom";
 import { useDraw } from "../utility/dragHandlers";
+import CreateApptForm from "../modal/CreateApptForm";
+import Modal from "../modal/Modal";
 
-export default function DragAndCreate() {
+export default function DragAndCreate(props) {
   const {
     x_start,
     y_start,
     x_end,
     y_end,
+    setSelected,
     reset,
     setMouseStartPosition,
     setMouseEndPosition,
   } = useDraw();
-
   const [list, setList] = useState([]);
 
   const mystyle = {
@@ -52,8 +54,8 @@ export default function DragAndCreate() {
       });
 
       //must add key later
-      setList((value) => {
-        if (x_end - x_start > 1 && y_end - y_start > 1) {
+      if (x_end - x_start > 1 && y_end - y_start > 1) {
+        setList((value) => {
           return [
             ...value,
             <div
@@ -65,10 +67,13 @@ export default function DragAndCreate() {
               )}
             ></div>,
           ];
-        } else {
-          return value;
-        }
-      });
+        });
+        props.setActive();
+        setSelected((prev) => {
+          props.setSelected(prev);
+          return prev;
+        });
+      }
     }
     reset();
   };
@@ -80,12 +85,12 @@ export default function DragAndCreate() {
   }, []);
 
   return (
-    <div className="App">
+    <Fragment>
       {ReactDOM.createPortal(
         <div style={mystyle}></div>,
         document.getElementById("root")
       )}
       {ReactDOM.createPortal(list, document.getElementById("root"))}
-    </div>
+    </Fragment>
   );
 }

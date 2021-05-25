@@ -60,7 +60,7 @@ const RowHeader = () => {
   };
 
   elements.push(
-    <div className="col-header">
+    <div key={-1}className="col-header">
       <div style={noonTimeStyle}>{hours[j++]}</div>
       <div
         className="border-right border-bottom"
@@ -71,10 +71,9 @@ const RowHeader = () => {
   for (let i = 0; i < 48; i++) {
     if (i % 2) {
       elements.push(
-        <div className="col-header">
+        <div key={i} className="col-header">
           <div style={timeStyle}>{hours[j++]}</div>
           <div
-            key={i}
             className="border-right border-bottom"
             style={style(10)}
           ></div>

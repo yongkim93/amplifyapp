@@ -7,27 +7,25 @@ import {
   getEpochToDate,
   useDateTimeManager,
 } from "../utility/DateTimeManager";
-
+const sortKeys = (eventManager, startEpoch, endEpoch) => {
+  const tempKeys = [];
+  eventManager.events.forEach((value, key) => {
+    if (key >= startEpoch && key < endEpoch) {
+      tempKeys.push(key);
+    }
+  });
+  return tempKeys;
+};
 const Cell = (props) => {
   const { state: windowSizeManager } = useWindowSize();
   const { state: eventManager } = useEventManager();
   const { refreshEvents } = useEventManager();
   const [keys, setKeys] = useState([]);
 
-  const sortKeys = () => {
-    const tempKeys = [];
-    eventManager.events.forEach((value, key) => {
-      if (key >= props.startEpoch && key < props.endEpoch) {
-        tempKeys.push(key);
-      }
-    });
-    return tempKeys;
-  };
-
   useEffect(() => {
-    const keyHolder = sortKeys();
+    const keyHolder = sortKeys(eventManager, props.startEpoch, props.endEpoch);
     setKeys([...keyHolder]);
-  }, [eventManager]);
+  }, [eventManager, sortKeys]);
 
   const interval = (currentEpoch, startEpoch) => {
     //30m interval
@@ -43,12 +41,13 @@ const Cell = (props) => {
     return keys.map((element) => {
       return (
         <div
+          key={i}
           style={{
             backgroundColor: "aquamarine",
             width: windowSizeManager.colWidth,
             height: windowSizeManager.rowHeight,
             position: "relative",
-            top: getYPosition(interval(element, props.startEpoch),  i++),
+            top: getYPosition(interval(element, props.startEpoch), i++),
           }}
         ></div>
       );
@@ -61,11 +60,12 @@ const Cell = (props) => {
 
   return (
     <div
-      key={props.key}
       className={props.className + " cell"}
       style={props.style}
       onClick={clickHandler}
-    >{createBlocks()}</div>
+    >
+      {createBlocks()}
+    </div>
   );
 };
 
