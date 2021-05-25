@@ -56,10 +56,15 @@ const useDraw = () => {
     x_end: null,
     y_end: null,
   });
+  const [selected, setSelected] = useState({
+    col: null,
+    row: null,
+  });
 
   const reset = () => {
     setMouseStartPosition({ x_start: null, y_start: null });
     setMouseEndPosition({ x_end: null, y_end: null });
+    setSelected({ col: null, row: null });
   };
 
   const onMouseMove = (e) => {
@@ -83,6 +88,18 @@ const useDraw = () => {
   const onMouseDown = (e) => {
     e.preventDefault();
     myref.current = e.offsetY;
+    setSelected((prev) => {
+      const col = Math.round(
+        (e.pageX - e.offsetX - getWindowSizeState().offsetLeft + 1) /
+          getWindowSizeState().colWidth
+      );
+      const row = Math.floor(
+        (e.pageY - getWindowSizeState().offsetTop + 1) /
+          getWindowSizeState().rowHeight
+      );
+      console.log(col, row)
+      return { row, col };
+    });
     window.addEventListener("mousemove", onMouseMove);
     setMouseStartPosition({
       x_start: e.pageX - e.offsetX,
@@ -123,7 +140,10 @@ const useDraw = () => {
 
     return () => {
       window.removeEventListener("mouseup", onMouseUp);
-      document.getElementById("vertical_grid") && document.getElementById("vertical_grid").removeEventListener("mousedown", onMouseDown);
+      document.getElementById("vertical_grid") &&
+        document
+          .getElementById("vertical_grid")
+          .removeEventListener("mousedown", onMouseDown);
     };
   }, []);
 
