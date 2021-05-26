@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { UserInfoProvider } from './google-login/googleUtil'
 import { WindowSizeProvider } from './utility/windowSizeManager'
 import { DateTimeProvider } from './utility/DateTimeManager'
+import { EventManagerProvider } from './utility/useEventManager'
 
 const App = () => {
   return (
@@ -28,7 +29,9 @@ const App = () => {
                 <Route path="/VerticalGrid">
                   <WindowSizeProvider>
                     <DateTimeProvider>
-                      <VerticalGrid />
+                      <EventManagerProvider>
+                        <VerticalGrid />
+                      </EventManagerProvider>
                     </DateTimeProvider>
                   </WindowSizeProvider>
                 </Route>

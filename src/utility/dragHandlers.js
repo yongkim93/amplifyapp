@@ -63,6 +63,8 @@ const useDraw = () => {
     row_end: null
   })
 
+  const selectedRef = useRef()
+
   const reset = () => {
     setMouseStartPosition({ x_start: null, y_start: null })
     setMouseEndPosition({ x_end: null, y_end: null })
@@ -106,7 +108,7 @@ const useDraw = () => {
         (e.pageY - getWindowSizeState().offsetTop + 1) /
           getWindowSizeState().rowHeight
       )
-      console.log(col, row)
+      selectedRef.current = { ...prev, row_start: row, col_start: col }
       return { ...prev, row_start: row, col_start: col }
     })
 
@@ -133,7 +135,7 @@ const useDraw = () => {
         (e.pageY - getWindowSizeState().offsetTop + 1) /
           getWindowSizeState().rowHeight
       )
-      console.log(col, row)
+      selectedRef.current = { ...prev, row_end: row, col_end: col }
       return { ...prev, row_end: row, col_end: col }
     })
     setMouseEndPosition((prev) => {
@@ -170,7 +172,7 @@ const useDraw = () => {
   return {
     ...mouseStartPosition,
     ...mouseEndPosition,
-    setSelected,
+    selectedRef,
     setMouseStartPosition,
     setMouseEndPosition,
     reset

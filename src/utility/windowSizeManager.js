@@ -34,7 +34,6 @@ const WindowSizeProvider = ({ children }) => {
   // const memo = useMemo(()=>({state, dispatch, getState}),[]);
   useLayoutEffect(() => {
     const el = document.getElementById('vertical_grid')
-    console.log(el.offsetLeft, el.offsetTop)
     dispatch({
       type: 'RESIZE',
       payload: {

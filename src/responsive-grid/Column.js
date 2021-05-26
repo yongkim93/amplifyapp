@@ -23,8 +23,8 @@ const Column = () => {
     elements.push(
       <Cell
         key={i}
-        startEpoch={startDateTime}
-        endEpoch={endDateTime}
+        startOfTheDay={startDateTime}
+        endOfTheDay={endDateTime}
         className="border-right"
         style={style}
       />

@@ -7,7 +7,7 @@ import Row from './Row'
 import DragAndCreate from './DragOnColumn'
 import './VerticalGrid.scss'
 import { useDateTimeManager } from '../utility/DateTimeManager'
-import { EventManagerProvider } from '../utility/useEventManager'
+import { useEventManager } from '../utility/useEventManager'
 import ReactDOM from 'react-dom'
 import CreateApptForm from '../modal/CreateApptForm'
 import Modal from '../modal/Modal'
@@ -40,7 +40,7 @@ const modalStateReducer = (state, action) => {
       return { ...state, submit: true }
     case 'NOT_SUBMIT':
       return { ...state, submit: false }
-    case 'RESET_ALL':
+    case 'RESET':
       return { ...initialModalState }
     default:
       throw new Error('No action type')
@@ -85,7 +85,7 @@ const formStateReducer = (state, action) => {
           isValid: !!action.payload.trim()
         }
       }
-    case 'RESET_ALL':
+    case 'RESET':
       return { ...initialFormState }
     default:
       throw new Error('No action type')
@@ -100,7 +100,7 @@ const validateEmail = (email) => {
 const VerticalGrid = (props) => {
   const { state: windowSizeState, dispatch: windowSizeDispatch } =
     useWindowSize()
-  const { putEvent } = useHttp()
+  const { putEvents } = useHttp()
   const [formState, setFormState] = useReducer(
     formStateReducer,
     initialFormState
@@ -112,6 +112,11 @@ const VerticalGrid = (props) => {
   const [selected, setSelected] = useState({})
 
   const { state: dateTimeManager } = useDateTimeManager()
+
+  const [dragDiv, setDragDiv] = useState(<div></div>)
+
+  const { refreshEvents } = useEventManager()
+
   const setResizedWindow = () => {
     const el = document.getElementById('vertical_grid')
     windowSizeDispatch({
@@ -120,11 +125,11 @@ const VerticalGrid = (props) => {
     })
   }
 
-  const onSubmitHandler = () => {
+  const onSubmitHandler = async () => {
     setModalState({ type: 'SUBMIT' })
     // console.log(dateTimeManager);
-    const uuid = uuidv4()
-
+    const concurrentKey = uuidv4()
+    const tempArray = []
     for (let i = selected.col_start; i <= selected.col_end; i++) {
       const dateTime = new Date(dateTimeManager.mondayOfTheCurrentWeek)
       dateTime.setDate(dateTime.getDate() + i)
@@ -138,26 +143,39 @@ const VerticalGrid = (props) => {
         )
         .toISOString()
       const info = {
-        name: formState.name.value,
-        email: formState.email.value,
-        purpose: formState.purpose.value,
-        message: formState.message.value
+        userId: 'guest',
+        uuid: uuidv4(),
+        concurrentKey,
+        startTime,
+        endTime,
+        info: {
+          name: formState.name.value,
+          email: formState.email.value,
+          purpose: formState.purpose.value,
+          message: formState.message.value
+        }
       }
-      putEvent(null, null, uuid, startTime, endTime, info)
+      tempArray.push(info)
+      // putEvent(null, null, uuid, startTime, endTime, info).catch((error) =>
+      //   console.log(error)
+      // )
       // for (let j = selected.row_start; j <= selected.row_end; j++) {
       //   dateTime.addMinutes(windowSizeState.intervalMinutes);
       //   console.log(dateTime.toString());
       // }
     }
+    await putEvents(tempArray)
+    await refreshEvents()
+    setFormState({ type: 'RESET' })
+    setModalState({ type: 'RESET' })
   }
 
   useEffect(() => {
-    console.log(selected)
     window.addEventListener('resize', setResizedWindow)
     return () => {
       window.removeEventListener('resize', setResizedWindow)
     }
-  }, [selected])
+  }, [])
 
   return (
     <Fragment>
@@ -169,20 +187,23 @@ const VerticalGrid = (props) => {
             <div className="horizontal_grid" id="horizontal_grid">
               <Row />
             </div>
-            <EventManagerProvider>
-              <Column />
-            </EventManagerProvider>
+            <Column />
           </div>
         </div>
       </div>
       <DragAndCreate
         setActive={() => setModalState({ type: 'ACTIVE' })}
         setSelected={setSelected}
+        dragDiv={dragDiv}
+        setDragDiv={setDragDiv}
       />
       {ReactDOM.createPortal(
         <Modal
           isActive={modalState.isActive}
-          onClose={() => setModalState({ type: 'NOT_ACTIVE' })}
+          onClose={() => {
+            setModalState({ type: 'NOT_ACTIVE' })
+            setDragDiv(<div></div>)
+          }}
           onSubmit={onSubmitHandler}
         >
           <CreateApptForm
