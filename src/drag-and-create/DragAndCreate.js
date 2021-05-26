@@ -3,7 +3,7 @@ import './DragAndCreate.scss'
 import ReactDOM from 'react-dom'
 import useMousePosition from './MousePosition'
 import { useDraw } from './useMouse'
-
+/* eslint-disable camelcase */
 export default function DragAndCreate() {
   const { x, y } = useMousePosition()
   const {

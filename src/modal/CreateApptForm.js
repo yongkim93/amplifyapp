@@ -29,7 +29,7 @@ const CreateApptForm = ({ modalState, formState, setFormState }) => {
         <label className="label">Name</label>
         <div className="control">
           <input
-            disabled={false}
+            disabled={modalState.submit}
             className={`input ${name.initial && !name.isValid && 'is-danger'} ${
               !name.initial && name.isValid && 'is-success'
             }`}

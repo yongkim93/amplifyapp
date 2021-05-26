@@ -1,6 +1,7 @@
 import React, { useContext, createContext, useEffect } from 'react'
 import useEnhancedReducer from './useEnhancedReducer'
-import ReadEvents from '../db/useReadEvents'
+import useHttp from '../db/useHttp'
+import { getDateToEpoch } from './DateTimeManager'
 
 const eventsInfo = createContext({})
 const { Provider } = eventsInfo
@@ -9,6 +10,7 @@ const initialState = {
 }
 
 const EventManagerProvider = ({ children }) => {
+  const { readEvents } = useHttp()
   const [state, dispatch, getState] = useEnhancedReducer((state, action) => {
     switch (action.type) {
       case 'REFRESH':
@@ -19,10 +21,16 @@ const EventManagerProvider = ({ children }) => {
   }, initialState)
 
   const refreshEvents = () => {
-    ReadEvents('yongshine-guest', 'guest', null).then((data) => {
+    readEvents('yongshine_appointment', 'guest', null).then((data) => {
       const events = new Map()
       data.Items.forEach((item) => {
-        events.set(item.appointmentId, item)
+        const startTime = getDateToEpoch(new Date(item.startTime))
+        const endTime = getDateToEpoch(new Date(item.endTime))
+        events.set(startTime, {
+          ...item,
+          startTimeEpochi: startTime,
+          endTimeEpochi: endTime
+        })
       })
       dispatch({ type: 'REFRESH', payload: events })
     })
@@ -32,7 +40,11 @@ const EventManagerProvider = ({ children }) => {
     refreshEvents()
   }, [])
 
-  return <Provider value={{ state, dispatch, getState, refreshEvents }}>{children}</Provider>
+  return (
+    <Provider value={{ state, dispatch, getState, refreshEvents }}>
+      {children}
+    </Provider>
+  )
 }
 
 const useEventManager = () => useContext(eventsInfo)

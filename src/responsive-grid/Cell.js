@@ -12,38 +12,51 @@ const sortKeys = (eventManager, startEpoch, endEpoch) => {
   })
   return tempKeys
 }
+
 const Cell = (props) => {
   const { state: windowSizeManager } = useWindowSize()
   const { state: eventManager } = useEventManager()
   const { refreshEvents } = useEventManager()
-  const [keys, setKeys] = useState([])
+  const [keys, setKeys] = useState([]) // keys are startTime
 
   useEffect(() => {
-    const keyHolder = sortKeys(eventManager, props.startEpoch, props.endEpoch)
+    const keyHolder = sortKeys(
+      eventManager,
+      props.startOfTheDay,
+      props.endOfTheDay
+    )
     setKeys([...keyHolder])
   }, [eventManager, sortKeys])
 
-  const interval = (currentEpoch, startEpoch) => {
+  const interval = (highEpochi, lowEpochi) => {
     // 30m interval
-    return (currentEpoch - startEpoch) / 60 / 30
+    return (highEpochi - lowEpochi) / 60 / 30
   }
 
-  const getYPosition = (interval, position) => {
-    return Math.round((interval - position) * windowSizeManager.rowHeight)
+  const getYPosition = (interval) => {
+    return interval * windowSizeManager.rowHeight
   }
 
   const createBlocks = () => {
-    let i = 0
-    return keys.map((element) => {
+    let acc = 0
+    keys.sort((a, b) => a - b)
+    return keys.map((key) => {
+      const { startTimeEpochi, endTimeEpochi } = eventManager.events.get(key)
+      const height =
+        interval(endTimeEpochi, startTimeEpochi) * windowSizeManager.rowHeight
+      const top =
+        getYPosition(interval(startTimeEpochi, props.startOfTheDay)) - acc
+      acc += height
+
       return (
         <div
-          key={i}
+          key={startTimeEpochi + endTimeEpochi}
           style={{
+            position: 'relative',
             backgroundColor: 'aquamarine',
             width: windowSizeManager.colWidth,
-            height: windowSizeManager.rowHeight,
-            position: 'relative',
-            top: getYPosition(interval(element, props.startEpoch), i++)
+            height,
+            top
           }}
         ></div>
       )

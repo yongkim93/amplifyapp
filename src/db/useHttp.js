@@ -1,16 +1,19 @@
 import useAWS from './useAWS'
 
+const ddbFormatter = (arr) => {
+  return {
+    RequestItems: {
+      yongshine_appointment: arr.map((val) => {
+        return { PutRequest: { Item: { ...val } } }
+      })
+    }
+  }
+}
+
 const useHttp = () => {
   const { docClient } = useAWS()
 
-  const putEvent = (
-    tableName,
-    userId,
-    uuid,
-    startTime,
-    endTime,
-    info
-  ) => {
+  const putEvent = (tableName, userId, uuid, startTime, endTime, info) => {
     tableName = tableName || 'yongshine_appointment'
     userId = userId || 'guest'
     // date = 'date';
@@ -32,6 +35,25 @@ const useHttp = () => {
     console.log('Adding a new item...')
 
     return docClient.put(params).promise()
+    // docClient.put(params, function (err, data) {
+    //     if (err) {
+    //         console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+    //     } else {
+    //         console.log("Added item:", JSON.stringify(data, null, 2));
+    //     }
+    // });
+  }
+
+  const putEvents = (items) => {
+    // date = 'date';
+    // type = 'appointment';
+    // info = {start: 12, end: 21};
+    const params = ddbFormatter(items)
+    // console.log(params);
+
+    console.log('Adding a new item...')
+
+    return docClient.batchWrite(params).promise()
     // docClient.put(params, function (err, data) {
     //     if (err) {
     //         console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
@@ -64,7 +86,7 @@ const useHttp = () => {
     // });
   }
 
-  return { putEvent, readEvents }
+  return { putEvent, putEvents, readEvents }
 }
 
 export default useHttp

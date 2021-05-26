@@ -1,19 +1,19 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useLayoutEffect, Fragment } from 'react'
 import ReactDOM from 'react-dom'
 import { useDraw } from '../utility/dragHandlers'
 
+/* eslint-disable camelcase */
 export default function DragAndCreate(props) {
   const {
     x_start,
     y_start,
     x_end,
     y_end,
-    setSelected,
+    selectedRef,
     reset,
     setMouseStartPosition,
     setMouseEndPosition
   } = useDraw()
-  const [list, setList] = useState()
 
   const mystyle = {
     position: 'absolute',
@@ -53,32 +53,41 @@ export default function DragAndCreate(props) {
 
       // must add key later
       if (x_end - x_start > 1 && y_end - y_start > 1) {
-        setList((value) => {
-          return (
-            <div
-              style={mystyleTemplate(
-                x_end - x_start,
-                y_end - y_start,
-                x_start,
-                y_start
-              )}
-            ></div>
-          )
-        })
+        props.setSelected(() => selectedRef.current)
+
+        props.setDragDiv(() => (
+          <div
+            style={mystyleTemplate(
+              x_end - x_start,
+              y_end - y_start,
+              x_start,
+              y_start
+            )}
+          ></div>
+        ))
         props.setActive()
-        setSelected((prev) => {
-          props.setSelected(prev)
-          return prev
-        })
       }
     }
     reset()
   }
 
-  useEffect(() => {
-    window.addEventListener('mouseup', onMouseUp)
+  const onMouseDown = () => {
+    props.setDragDiv(() => <div></div>)
+  }
 
-    return () => window.removeEventListener('mouseup', onMouseUp)
+  useLayoutEffect(() => {
+    window.addEventListener('mouseup', onMouseUp)
+    document
+      .getElementById('vertical_grid')
+      .addEventListener('mousedown', onMouseDown)
+
+    return () => {
+      window.removeEventListener('mouseup', onMouseUp)
+      document.getElementById('vertical_grid') &&
+        document
+          .getElementById('vertical_grid')
+          .removeEventListener('mousedown', onMouseDown)
+    }
   }, [])
 
   return (
@@ -87,7 +96,7 @@ export default function DragAndCreate(props) {
         <div style={mystyle}></div>,
         document.getElementById('root')
       )}
-      {ReactDOM.createPortal(list, document.getElementById('root'))}
+      {ReactDOM.createPortal(props.dragDiv, document.getElementById('root'))}
     </Fragment>
   )
 }
