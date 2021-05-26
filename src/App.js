@@ -24,7 +24,7 @@ const App = () => {
             <Navs />
           </div>
           <div className="main">
-            <div className="card-body" style={{ width: '100%' }}>
+            <div className="card-body appointment-container" style={{ width: '100%' }}>
               <Switch>
                 <Route path="/VerticalGrid">
                   <WindowSizeProvider>
