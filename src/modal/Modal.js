@@ -1,8 +1,8 @@
-import React, { useState, forwardRef } from "react";
+import React from 'react'
 
 const Modal = (props) => {
   return (
-    <div className={`modal ${props.isActive ? "is-active" : ""}`}>
+    <div className={`modal ${props.isActive ? 'is-active' : ''}`}>
       <div className="modal-background"></div>
       <div className="modal-card">
         <header className="modal-card-head">
@@ -14,7 +14,7 @@ const Modal = (props) => {
           ></button>
         </header>
         <section className="modal-card-body is-clipped">
-           {props.children} 
+          {props.children}
         </section>
         <footer className="modal-card-foot">
           <button className="button is-success" onClick={props.onSubmit}>
@@ -26,7 +26,7 @@ const Modal = (props) => {
         </footer>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Modal;
+export default Modal

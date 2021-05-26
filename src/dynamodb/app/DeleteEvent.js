@@ -1,16 +1,16 @@
-import docClient from "./AWS";
+import docClient from './AWS'
 
 export default function deleteEvent(tableName, userId, appointmentId) {
-  var params = {
+  const params = {
     TableName: tableName,
     Key: {
       userId,
       appointmentId
-    },
-  };
+    }
+  }
 
-  console.log("Attempting a conditional delete...");
-  return docClient.delete(params).promise();
+  console.log('Attempting a conditional delete...')
+  return docClient.delete(params).promise()
   //   docClient.delete(params, function (err, data) {
   //     if (err) {
   //       console.error(

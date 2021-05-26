@@ -1,7 +1,7 @@
-import useAWS from "./useAWS";
+import useAWS from './useAWS'
 
 const useHttp = () => {
-  const { docClient } = useAWS();
+  const { docClient } = useAWS()
 
   const putEvent = (
     tableName,
@@ -11,8 +11,8 @@ const useHttp = () => {
     endTime,
     info
   ) => {
-    tableName = tableName || "yongshine_appointment";
-    userId = userId || "guest";
+    tableName = tableName || 'yongshine_appointment'
+    userId = userId || 'guest'
     // date = 'date';
     // type = 'appointment';
     // info = {start: 12, end: 21};
@@ -24,14 +24,14 @@ const useHttp = () => {
         uuid, // epoch of appointment dateTime
         startTime,
         endTime,
-        info,
-      },
-    };
+        info
+      }
+    }
     // console.log(params);
 
-    console.log("Adding a new item...");
+    console.log('Adding a new item...')
 
-    return docClient.put(params).promise();
+    return docClient.put(params).promise()
     // docClient.put(params, function (err, data) {
     //     if (err) {
     //         console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
@@ -39,21 +39,21 @@ const useHttp = () => {
     //         console.log("Added item:", JSON.stringify(data, null, 2));
     //     }
     // });
-  };
+  }
 
   const readEvents = (tableName, partitionKey, sortKey) => {
     const params = {
       TableName: tableName,
-      KeyConditionExpression: "#userId = :guest",
+      KeyConditionExpression: '#userId = :guest',
       ExpressionAttributeNames: {
-        "#userId": "userId",
+        '#userId': 'userId'
       },
       ExpressionAttributeValues: {
-        ":guest": partitionKey,
-      },
-    };
+        ':guest': partitionKey
+      }
+    }
 
-    return docClient.query(params).promise();
+    return docClient.query(params).promise()
     // .then((data) => {
     //   // let appointments = new Map();
 
@@ -62,9 +62,9 @@ const useHttp = () => {
 
     //   // return appointments;
     // });
-  };
+  }
 
-  return { putEvent, readEvents };
-};
+  return { putEvent, readEvents }
+}
 
-export default useHttp;
+export default useHttp

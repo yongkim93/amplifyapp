@@ -1,6 +1,6 @@
-import docClient from "./AWS";
+import docClient from './AWS'
 
-export default function ReadEvents (tableName, partitionKey, sortKey, map) {
+export default function ReadEvents(tableName, partitionKey, sortKey, map) {
   const params = {
     TableName: tableName,
     KeyConditionExpression: '#userId = :guest',

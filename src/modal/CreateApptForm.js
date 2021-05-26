@@ -1,27 +1,27 @@
-import React, { useState } from "react";
+import React from 'react'
 
 const CreateApptForm = ({ modalState, formState, setFormState }) => {
-  const { name, email, purpose, message } = formState;
+  const { name, email, purpose, message } = formState
 
   const nameHandler = (e) => {
-    e.preventDefault();
-    setFormState({ type: "CHANGE_NAME", payload: e.target.value });
-  };
+    e.preventDefault()
+    setFormState({ type: 'CHANGE_NAME', payload: e.target.value })
+  }
 
   const emailHandler = (e) => {
-    e.preventDefault();
-    setFormState({ type: "CHANGE_EMAIL", payload: e.target.value });
-  };
+    e.preventDefault()
+    setFormState({ type: 'CHANGE_EMAIL', payload: e.target.value })
+  }
 
   const purposeHandler = (e) => {
-    e.preventDefault();
-    setFormState({ type: "CHANGE_PURPOSE", payload: e.target.value });
-  };
+    e.preventDefault()
+    setFormState({ type: 'CHANGE_PURPOSE', payload: e.target.value })
+  }
 
   const messageHandler = (e) => {
-    e.preventDefault();
-    setFormState({ type: "CHANGE_MESSAGE", payload: e.target.value });
-  };
+    e.preventDefault()
+    setFormState({ type: 'CHANGE_MESSAGE', payload: e.target.value })
+  }
 
   return (
     <div className="Form text-left">
@@ -30,8 +30,8 @@ const CreateApptForm = ({ modalState, formState, setFormState }) => {
         <div className="control">
           <input
             disabled={false}
-            className={`input ${name.initial && !name.isValid && "is-danger"} ${
-              !name.initial && name.isValid && "is-success"
+            className={`input ${name.initial && !name.isValid && 'is-danger'} ${
+              !name.initial && name.isValid && 'is-success'
             }`}
             type="text"
             placeholder="Your Name"
@@ -65,8 +65,8 @@ const CreateApptForm = ({ modalState, formState, setFormState }) => {
         <div className="control has-icons-right">
           <input
             disabled={modalState.submit}
-            className={`input ${!email.isValid && "is-danger"} ${
-              email.isValid && "is-success"
+            className={`input ${!email.isValid && 'is-danger'} ${
+              email.isValid && 'is-success'
             }`}
             type="email"
             placeholder="my-email@example.com"
@@ -104,8 +104,8 @@ const CreateApptForm = ({ modalState, formState, setFormState }) => {
           <textarea
             disabled={modalState.submit}
             className={`textarea ${
-              message.initial && !message.isValid && "is-danger"
-            } ${!message.initial && message.isValid && "is-success"}`}
+              message.initial && !message.isValid && 'is-danger'
+            } ${!message.initial && message.isValid && 'is-success'}`}
             placeholder="Please leave a message!"
             value={message.value}
             onChange={messageHandler}
@@ -113,7 +113,7 @@ const CreateApptForm = ({ modalState, formState, setFormState }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CreateApptForm;
+export default CreateApptForm

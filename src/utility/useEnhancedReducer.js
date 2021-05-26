@@ -1,8 +1,8 @@
-import { useReducer, useRef, useCallback } from "react";
+import { useReducer, useRef, useCallback } from 'react'
 
 const useEnhancedReducer = (reducer, initState, initializer) => {
-  const lastState = useRef(initState);
-  const getState = useCallback(() => lastState.current, []);
+  const lastState = useRef(initState)
+  const getState = useCallback(() => lastState.current, [])
   return [
     ...useReducer(
       useCallback(
@@ -12,8 +12,8 @@ const useEnhancedReducer = (reducer, initState, initializer) => {
       initState,
       initializer
     ),
-    getState,
-  ];
-};
+    getState
+  ]
+}
 
-export default useEnhancedReducer;
+export default useEnhancedReducer

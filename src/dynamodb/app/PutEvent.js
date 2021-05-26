@@ -1,4 +1,4 @@
-import docClient from "./AWS";
+import docClient from './AWS'
 
 // AWS.config.update({
 //     region: "us-east-2",
@@ -17,7 +17,7 @@ import docClient from "./AWS";
 //     console.log(sessionToken);
 // });
 
-export default function putEvent (tableName, userId, dateTime, appointmentId, info) {
+export default function putEvent(tableName, userId, dateTime, appointmentId, info) {
   tableName = tableName || 'yongshine-guest'
   userId = userId || 'guest'
   // date = 'date';

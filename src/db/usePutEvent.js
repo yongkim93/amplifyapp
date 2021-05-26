@@ -1,4 +1,4 @@
-import docClient from "./useAWS";
+import docClient from './useAWS'
 
 // AWS.config.update({
 //     region: "us-east-2",
@@ -25,8 +25,8 @@ export default function putEvent(
   endTime,
   info
 ) {
-  tableName = tableName || "yongshine-appointment";
-  userId = userId || "guest";
+  tableName = tableName || 'yongshine-appointment'
+  userId = userId || 'guest'
   // date = 'date';
   // type = 'appointment';
   // info = {start: 12, end: 21};
@@ -38,14 +38,14 @@ export default function putEvent(
       appointmentId, // epoch of appointment dateTime
       startTime,
       endTime,
-      info,
-    },
-  };
+      info
+    }
+  }
   // console.log(params);
 
-  console.log("Adding a new item...");
+  console.log('Adding a new item...')
 
-  return docClient.put(params).promise();
+  return docClient.put(params).promise()
   // docClient.put(params, function (err, data) {
   //     if (err) {
   //         console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
