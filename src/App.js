@@ -1,16 +1,15 @@
-import React from "react";
-import logo from "./logo.svg";
-import Navs from "./navs/Navs";
-import "./App.scss";
-import Main from "./main/Main";
-import Sticker from "./sticker/Sticker";
-import Calendar from "./calendar/Calendar";
-import DragAndDrop from "./drag-and-drop/DragAndDrop";
-import DragAndCreate from "./drag-and-create/DragAndCreate";
-import VerticalGrid from "./responsive-grid/VerticalGrid";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { UserInfoProvider } from "./google-login/googleUtil";
-import { useWindowSize, WindowSizeProvider } from "./utility/windowSizeManager";
+import React from 'react'
+import Navs from './navs/Navs'
+import './App.scss'
+import Main from './main/Main'
+import Calendar from './calendar/Calendar'
+import DragAndDrop from './drag-and-drop/DragAndDrop'
+import DragAndCreate from './drag-and-create/DragAndCreate'
+import VerticalGrid from './responsive-grid/VerticalGrid'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { UserInfoProvider } from './google-login/googleUtil'
+import { WindowSizeProvider } from './utility/windowSizeManager'
+import { DateTimeProvider } from './utility/DateTimeManager'
 
 const App = () => {
   return (
@@ -24,11 +23,13 @@ const App = () => {
             <Navs />
           </div>
           <div className="main">
-            <div className="card-body" style={{ width: "100%" }}>
+            <div className="card-body" style={{ width: '100%' }}>
               <Switch>
                 <Route path="/VerticalGrid">
                   <WindowSizeProvider>
-                    <VerticalGrid />
+                    <DateTimeProvider>
+                      <VerticalGrid />
+                    </DateTimeProvider>
                   </WindowSizeProvider>
                 </Route>
                 <Route path="/DragAndCreate">
@@ -49,7 +50,7 @@ const App = () => {
         </Router>
       </div>
     </UserInfoProvider>
-  );
-};
+  )
+}
 
-export default App;
+export default App

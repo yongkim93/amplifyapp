@@ -1,19 +1,19 @@
-import useAWS from "./useAWS";
+import useAWS from './useAWS'
 
 const useReadEvents = (tableName, partitionKey, sortKey) => {
-  const { docClient } = useAWS();
+  const { docClient } = useAWS()
   const params = {
     TableName: tableName,
-    KeyConditionExpression: "#userId = :guest",
+    KeyConditionExpression: '#userId = :guest',
     ExpressionAttributeNames: {
-      "#userId": "userId",
+      '#userId': 'userId'
     },
     ExpressionAttributeValues: {
-      ":guest": partitionKey,
-    },
-  };
+      ':guest': partitionKey
+    }
+  }
 
-  return docClient.query(params).promise();
+  return docClient.query(params).promise()
   // .then((data) => {
   //   // let appointments = new Map();
 
@@ -22,6 +22,6 @@ const useReadEvents = (tableName, partitionKey, sortKey) => {
 
   //   // return appointments;
   // });
-};
+}
 
-export default useReadEvents;
+export default useReadEvents

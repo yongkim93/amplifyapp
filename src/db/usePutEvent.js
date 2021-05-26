@@ -1,4 +1,4 @@
-import docClient from './AWS'
+import docClient from './useAWS'
 
 // AWS.config.update({
 //     region: "us-east-2",
@@ -17,8 +17,15 @@ import docClient from './AWS'
 //     console.log(sessionToken);
 // });
 
-export default function putEvent(tableName, userId, dateTime, appointmentId, info) {
-  tableName = tableName || 'yongshine-guest'
+export default function putEvent(
+  tableName,
+  userId,
+  appointmentId,
+  startTime,
+  endTime,
+  info
+) {
+  tableName = tableName || 'yongshine-appointment'
   userId = userId || 'guest'
   // date = 'date';
   // type = 'appointment';
@@ -29,7 +36,8 @@ export default function putEvent(tableName, userId, dateTime, appointmentId, inf
     Item: {
       userId,
       appointmentId, // epoch of appointment dateTime
-      dateTime,
+      startTime,
+      endTime,
       info
     }
   }

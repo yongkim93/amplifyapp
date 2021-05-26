@@ -1,14 +1,14 @@
-import React, { Fragment, useContext } from "react";
-import { GoogleLogout } from "react-google-login";
-import { clientId, userInfo } from "./googleUtil";
+import React, { Fragment, useContext } from 'react'
+import { GoogleLogout } from 'react-google-login'
+import { clientId, userInfo } from './googleUtil'
 
 const GoogleLogoutButton = () => {
-  const { state: userInfoState, dispatch } = useContext(userInfo);
+  const { state: userInfoState, dispatch } = useContext(userInfo)
 
   const onSuccess = () => {
-    dispatch({ type: "LOGOUT"});
-    alert("Logout made successfully");
-  };
+    dispatch({ type: 'LOGOUT' })
+    alert('Logout made successfully')
+  }
 
   return (
     <Fragment>
@@ -20,7 +20,7 @@ const GoogleLogoutButton = () => {
         />
       )}
     </Fragment>
-  );
-};
+  )
+}
 
-export default GoogleLogoutButton;
+export default GoogleLogoutButton
