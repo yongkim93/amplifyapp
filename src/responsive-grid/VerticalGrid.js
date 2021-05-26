@@ -179,10 +179,10 @@ const VerticalGrid = (props) => {
 
   return (
     <Fragment>
-      <div className="row-align">
-        <RowHeader />
-        <div className="colunm-align">
-          <ColumnHeader />
+      <div className="column-align">
+        <ColumnHeader />
+        <div className="row-align">
+          <RowHeader />
           <div className="vertical_grid" id="vertical_grid">
             <div className="horizontal_grid" id="horizontal_grid">
               <Row />

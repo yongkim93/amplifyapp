@@ -1,6 +1,6 @@
 .vertical_grid{
     height: 200vh;
-    width: 100%;
+    width: calc(100% - 40px);
     order:3;
     // background-color: floralwhite;
     display: flex;
@@ -21,8 +21,8 @@
     flex-wrap: wrap;
 }
 
-.colunm-align{
-    width: calc(100% - 40px);
+.column-align{
+    width: 100%;
     order:2;
     display: flex;
     flex-direction: column;

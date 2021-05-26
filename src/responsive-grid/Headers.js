@@ -10,7 +10,7 @@ const RowHeader = () => {
   const elements = []
   let j = 0
   const hours = [
-    '12 AM',
+    '',
     '1 AM',
     '2 AM',
     '3 AM',
@@ -47,32 +47,42 @@ const RowHeader = () => {
     width: '30px',
     height: windowSizeState?.rowHeight,
     position: 'relative',
-    bottom: -windowSizeState?.rowHeight + 10 + 'px', // +10px for fontsize
+    top: -9, // -windowSizeState?.rowHeight - 10 + 'px', // +10px for fontsize
     fontSize: '10px'
   }
 
-  const noonTimeStyle = {
-    width: '30px',
-    height: heightOfHeaderColumn + 'px',
-    position: 'relative',
-    bottom: -heightOfHeaderColumn + 10 + 'px',
-    fontSize: '10px'
-  }
-
-  elements.push(
-    <div key={-1} className="col-header">
-      <div style={noonTimeStyle}>{hours[j++]}</div>
-      <div
-        className="border-right border-bottom"
-        style={{ width: '10px', height: heightOfHeaderColumn + 'px' }}
-      />
-    </div>
-  )
-  for (let i = 0; i < 48; i++) {
+  // elements.push(
+  //   <div key={-1} className="col-header">
+  //     <div style={timeStyle}>{hours[j++]}</div>
+  //     <div
+  //       className="border-right border-bottom"
+  //       style={{ width: '10px', height: heightOfHeaderColumn + 'px' }}
+  //     />
+  //   </div>
+  // )
+  // for (let i = 0; i < 48; i++) {
+  //   if (i % 2) {
+  //     elements.push(
+  //       <div key={i} className="col-header">
+  //         <div style={timeStyle}>{hours[j++]}</div>
+  //         <div className="border-right border-bottom" style={style(10)}></div>
+  //       </div>
+  //     )
+  //   } else {
+  //     elements.push(
+  //       <div
+  //         key={i}
+  //         className="border-right border-bottom-dashed"
+  //         style={style(40)}
+  //       ></div>
+  //     )
+  //   }
+  // }
+  for (let i = 0; i < 47; i++) {
     if (i % 2) {
       elements.push(
         <div key={i} className="col-header">
-          <div style={timeStyle}>{hours[j++]}</div>
+          <div style={timeStyle}></div>
           <div className="border-right border-bottom" style={style(10)}></div>
         </div>
       )
@@ -82,14 +92,17 @@ const RowHeader = () => {
           key={i}
           className="border-right border-bottom-dashed"
           style={style(40)}
-        ></div>
+        >
+          <div style={timeStyle}>{hours[j++]}</div>
+        </div>
       )
     }
-    // elements.push(
-    //   <div key={i} className={`border-right ${i % 2 ? "border-bottom": ""}`} style={style}></div>
-    // );
   }
-
+  elements.push(
+    <div key={48} className="col-header">
+      <div className="border-right border-bottom" style={style(40)}></div>
+    </div>
+  )
   return <div className="row-header">{elements}</div>
 }
 
@@ -105,7 +118,14 @@ const ColumnHeader = () => {
 
   const currentDateTime = new Date(dateTimeState.mondayOfTheCurrentWeek)
 
-  for (let i = 0; i < 7; i++) {
+  elements.push(
+    <div
+      key={0}
+      className="border-right border-bottom row-header background-color"
+      style={{ width: '40px', height: heightOfHeaderColumn + 'px' }}
+    ></div>
+  )
+  for (let i = 1; i < 8; i++) {
     elements.push(
       <div
         key={i}
