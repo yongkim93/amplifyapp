@@ -1,0 +1,35 @@
+@import '~@fortawesome/fontawesome-free/scss/solid.scss';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
+
+.bottom-appt-nav {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  background-color: white;
+  height: 6vh;
+
+  .button-middle,
+  .button-right,
+  .button-left {
+    font-size: x-large;
+    height: 5vh;
+    &:hover {
+      box-shadow: inset 0rem -4px gold;
+      height: 6vh;
+    }
+  }
+  //   .button-left {
+  //     height: 6vh;
+  //     &:hover {
+  //       box-shadow: inset 0rem -2px gold;
+  //       height: 7vh;
+  //     }
+  //   }
+  //   .button-right {
+  //     height: 6vh;
+  //     &:hover {
+  //       box-shadow: inset 0rem -2px gold;
+  //       height: 7vh;
+  //     }
+  //   }
+}

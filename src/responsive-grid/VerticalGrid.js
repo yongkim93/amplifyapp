@@ -12,6 +12,7 @@ import ReactDOM from 'react-dom'
 import CreateApptForm from '../modal/CreateApptForm'
 import Modal from '../modal/Modal'
 import useHttp from '../db/useHttp'
+import ApptNav from '../apptNav/ApptNav'
 
 const initialModalState = {
   isActive: false,
@@ -191,6 +192,7 @@ const VerticalGrid = (props) => {
           </div>
         </div>
       </div>
+      <ApptNav />
       <DragAndCreate
         setActive={() => setModalState({ type: 'ACTIVE' })}
         setSelected={setSelected}

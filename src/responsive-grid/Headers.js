@@ -2,6 +2,7 @@ import React from 'react'
 import { useWindowSize } from '../utility/windowSizeManager'
 import './Headers.scss'
 import { useDateTimeManager } from '../utility/DateTimeManager'
+import SideNav from '../sideNav/SideNav'
 
 const heightOfHeaderColumn = 60
 
@@ -51,33 +52,6 @@ const RowHeader = () => {
     fontSize: '10px'
   }
 
-  // elements.push(
-  //   <div key={-1} className="col-header">
-  //     <div style={timeStyle}>{hours[j++]}</div>
-  //     <div
-  //       className="border-right border-bottom"
-  //       style={{ width: '10px', height: heightOfHeaderColumn + 'px' }}
-  //     />
-  //   </div>
-  // )
-  // for (let i = 0; i < 48; i++) {
-  //   if (i % 2) {
-  //     elements.push(
-  //       <div key={i} className="col-header">
-  //         <div style={timeStyle}>{hours[j++]}</div>
-  //         <div className="border-right border-bottom" style={style(10)}></div>
-  //       </div>
-  //     )
-  //   } else {
-  //     elements.push(
-  //       <div
-  //         key={i}
-  //         className="border-right border-bottom-dashed"
-  //         style={style(40)}
-  //       ></div>
-  //     )
-  //   }
-  // }
   for (let i = 0; i < 47; i++) {
     if (i % 2) {
       elements.push(
@@ -123,7 +97,9 @@ const ColumnHeader = () => {
       key={0}
       className="border-right border-bottom row-header background-color"
       style={{ width: '40px', height: heightOfHeaderColumn + 'px' }}
-    ></div>
+    >
+      <SideNav />
+    </div>
   )
   for (let i = 1; i < 8; i++) {
     elements.push(
